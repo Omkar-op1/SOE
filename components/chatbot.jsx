@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from 'react';
-import '@/css/chatboat.css';
+import BrandButton from '@/components/button';
+import { useRouter } from 'next/navigation';
 
-const ThinkersClubChatbot = () => {
+const FAQ = () => {
   const [activeQuestion, setActiveQuestion] = useState(null);
-
+  const router = useRouter();
+  
   const faqs = [
     {
       question: "How can Thinkers Club help me develop my startup idea?",
@@ -37,30 +39,32 @@ const ThinkersClubChatbot = () => {
   };
 
   return (
-    <div className="chatbot-container">
-      <div className="chatbot-header">
-        <h3>Thinkers Club FAQ</h3>
-        <div className="gold-line"></div>
-        <p className="subtext">Click on questions to reveal answers</p>
+    <div className="bg-[var(--color--campus-bg)] border border-[var(--color--white50)] rounded-xl p-8 max-w-2xl mx-auto my-12 shadow-lg">
+      <div className="text-center mb-8">
+        <h3 className="text-[var(--color--light-gold)] text-2xl mb-2">Thinkers Club FAQ</h3>
+        <div className="h-0.5 w-16 bg-[var(--color--gold)] mx-auto my-3"></div>
+        <p className="text-[var(--color--white50)] text-sm">Click on questions to reveal answers</p>
       </div>
       
-      <div className="faq-list">
+      <div className="border-t border-[var(--color--white50)]">
         {faqs.map((faq, index) => (
           <div 
             key={index} 
-            className={`faq-item ${activeQuestion === index ? 'active' : ''}`}
+            className={`border-b border-[var(--color--white50)] py-5 cursor-pointer transition-all duration-300 ${
+              activeQuestion === index ? 'bg-[rgba(255,255,255,0.03)]' : ''
+            } hover:bg-[rgba(255,255,255,0.03)]`}
             onClick={() => toggleQuestion(index)}
           >
-            <div className="question">
+            <div className="flex justify-between items-center font-medium text-[var(--color--white)] text-lg">
               <span>{faq.question}</span>
-              <span className="toggle-icon">
+              <span className="text-[var(--color--gold)] text-xl font-light ml-4">
                 {activeQuestion === index ? '−' : '+'}
               </span>
             </div>
             {activeQuestion === index && (
-              <div className="answer">
+              <div className="pt-4 text-[var(--color--white70)] leading-relaxed">
                 {faq.answer.split('\n').map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
+                  <p key={i} className="mb-3 last:mb-0">{paragraph}</p>
                 ))}
               </div>
             )}
@@ -68,14 +72,14 @@ const ThinkersClubChatbot = () => {
         ))}
       </div>
       
-      <div className="chatbot-cta">
-        <p>Ready to join Thinkers Club?</p>
-        <button className="gold-button">
-          Become a Member
-        </button>
+      <div className="text-center mt-8 pt-6 border-t border-[var(--color--white50)]">
+        <p className="text-[var(--color--white70)] mb-6">Ready to join Thinkers Club?</p>
+        <div className="flex justify-center">
+          <BrandButton label="Become a member" onClick={() => router.push('/register')} />
+        </div>
       </div>
     </div>
   );
 };
 
-export default ThinkersClubChatbot;
+export default FAQ;

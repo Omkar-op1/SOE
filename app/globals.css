@@ -34,3 +34,109 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+@keyframes backgroundFlow {
+  0% { transform: rotate(0deg) scale(1); opacity: 0.5; }
+  100% { transform: rotate(2deg) scale(1.05); opacity: 0.8; }
+}
+
+@keyframes patternShift {
+  0% { transform: translateX(0) translateY(0); }
+  100% { transform: translateX(60px) translateY(60px); }
+}
+
+@keyframes textReveal {
+  0% {
+    transform: translateY(100px) rotateX(-90deg);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(20px) rotateX(-20deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(0) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes gradientWave {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+  }
+}
+
+@keyframes textFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes slideInWithGlow {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  70% {
+    opacity: 0.8;
+    transform: translateX(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes lineAppear {
+  0% {
+    opacity: 0;
+    left: -100%;
+  }
+  100% {
+    opacity: 1;
+    left: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes floatingUpDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-30px); }
+}
+
+.animate-floating {
+  animation-name: floatingUpDown;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-on-scroll.opacity-100 {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -18,7 +18,7 @@ export default function BrandButton({
                  focus:outline-none focus:ring-2 focus:ring-yellow-400
                  hover:shadow-[0_0_12px_1px_rgba(184,134,11,0.6)] relative overflow-hidden flex items-center gap-2"
       style={{
-        backgroundColor: 'var(--color--gold)',
+        backgroundColor: '#f8b945',
         color: 'var(--color--button-text)',
         transition: 'box-shadow 0.3s ease-in-out',
       }}
