@@ -46,7 +46,7 @@ const Footer = () => {
             {/* Login */}
             <div className="footer-login">
              <BrandButton
-      label="Login"
+      label="Welcome to thinkers club"
       onClick={() => router.push('https://admin.theideacompany.io/login')}
       icon={
         <svg

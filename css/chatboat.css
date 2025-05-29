@@ -1,0 +1,118 @@
+/* Chatbot Container */
+.chatbot-container {
+  background-color: var(--color--campus-bg);
+  border: 1px solid var(--color--white50);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 3rem auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.chatbot-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.chatbot-header h3 {
+  color: var(--color--light-gold);
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.gold-line {
+  height: 2px;
+  width: 60px;
+  background: var(--color--gold);
+  margin: 0.8rem auto;
+}
+
+.subtext {
+  color: var(--color--white50);
+  font-size: 0.9rem;
+}
+
+/* FAQ Items */
+.faq-list {
+  border-top: 1px solid var(--color--white50);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--color--white50);
+  padding: 1.2rem 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  color: var(--color--white);
+  font-size: 1.1rem;
+}
+
+.toggle-icon {
+  color: var(--color--gold);
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-left: 1rem;
+}
+
+.answer {
+  padding-top: 1rem;
+  color: var(--color--white70);
+  line-height: 1.6;
+}
+
+.answer p {
+  margin-bottom: 0.8rem;
+}
+
+/* CTA Section */
+.chatbot-cta {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color--white50);
+}
+
+.chatbot-cta p {
+  color: var(--color--white70);
+  margin-bottom: 1.5rem;
+}
+
+.gold-button {
+  background: var(--color--gold);
+  color: var(--color--button-text);
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gold-button:hover {
+  background: var(--color--light-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chatbot-container {
+    padding: 1.5rem;
+  }
+  
+  .question {
+    font-size: 1rem;
+  }
+}
