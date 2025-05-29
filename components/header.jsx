@@ -1,14 +1,19 @@
-"use client";
+'use client';
 import React, { useState } from 'react';
+
 import Link from 'next/link';
 import '@/css/header.css';
+import BrandButton from '@/components/button';
+import { useRouter } from 'next/navigation';
+
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+ const router = useRouter();
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+ 
 
   return (
     <>
@@ -40,15 +45,25 @@ const Navbar = () => {
                 <div className="nav_link_line"></div>
               </Link>
             </nav>
-
-            <a href="https://admin.theideacompany.io/login" className="button_nav w-inline-block">
-              <div className="icon_login w-embed">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
-                </svg>
-              </div> 
-              <div className="hide-tablet">Log In</div>
-            </a>
+           <BrandButton
+      label="Login"
+      onClick={() => router.push('https://admin.theideacompany.io/login')}
+      icon={
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+            fill="currentColor"
+          />
+        </svg>
+      }
+      iconPosition="left" // optional, defaults to left
+    />
           </div>
         </div>
       </div>

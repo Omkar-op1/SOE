@@ -1,11 +1,12 @@
-import Image from "next/image";
-import Header from "@/components/header";
 
-export default function Home() {
+import Brand from "./sections/brand";
+import Hero from "./sections/hero";
+
+export default function Page() {
   return (
     <div>
-       <Header/>
+      <Hero />
+      <Brand />
     </div>
-  
   );
 }
