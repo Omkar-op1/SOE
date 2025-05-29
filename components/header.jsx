@@ -1,29 +1,37 @@
 'use client';
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import '@/css/header.css';
 import BrandButton from '@/components/button';
 import { useRouter } from 'next/navigation';
 
-
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
- const router = useRouter();
+  const [scrolled, setScrolled] = useState(false);
+  const router = useRouter();
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
- 
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50); // Change threshold as needed
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <>
       {/* Desktop Navbar */}
-      <div className="navbar w-nav">
+      <div className={`navbar w-nav ${scrolled ? 'scrolled' : ''}`}>
         <div className="padding-global">
           <div className="container-large is-nav">
             <Link href="/" className="university-logo_wrap w-nav-brand">
               <img 
-                src="theidea.webp" 
+                src="tic.png" 
                 loading="lazy" 
                 width="140" 
                 alt="theideacompany.com logo" 
@@ -45,25 +53,25 @@ const Navbar = () => {
                 <div className="nav_link_line"></div>
               </Link>
             </nav>
-           <BrandButton
-      label="Login"
-      onClick={() => router.push('https://admin.theideacompany.io/login')}
-      icon={
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
-            fill="currentColor"
-          />
-        </svg>
-      }
-      iconPosition="left" // optional, defaults to left
-    />
+            <BrandButton
+              label="Login"
+              onClick={() => router.push('https://admin.theideacompany.io/login')}
+              icon={
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              }
+              iconPosition="left"
+            />
           </div>
         </div>
       </div>
