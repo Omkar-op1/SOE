@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import '@/css/chatboat.css';
 
 const ThinkersClubChatbot = () => {
   const [activeQuestion, setActiveQuestion] = useState(null);
