@@ -143,7 +143,7 @@ const InvestorsTable = () => {
                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-[#FFD700]">For Investors</h3>
+                <h3 className="text-2xl font-bold text-[#FFD700]">Investors</h3>
               </div>
               
               <div className="space-y-6">
@@ -226,7 +226,7 @@ const InvestorsTable = () => {
                     <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-[#FFD700]">For Startups</h3>
+                <h3 className="text-2xl font-bold text-[#FFD700]">Startups</h3>
               </div>
               
               <div className="space-y-6">
