@@ -1,10 +1,15 @@
 'use client'
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const InvestorsTable = () => {
   const videoRef = useRef(null);
   const investorSectionRef = useRef(null);
   const startupSectionRef = useRef(null);
+  const [activeSection, setActiveSection] = useState(null);
+  
+  // Animation states for points
+  const [investorPointsVisible, setInvestorPointsVisible] = useState([]);
+  const [startupPointsVisible, setStartupPointsVisible] = useState([]);
 
   useEffect(() => {
     // Intersection Observer for scroll animations
@@ -12,6 +17,13 @@ const InvestorsTable = () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-fadeInUp');
+          
+          // Set active section
+          if (entry.target === investorSectionRef.current) {
+            setActiveSection('investors');
+          } else if (entry.target === startupSectionRef.current) {
+            setActiveSection('startups');
+          }
         }
       });
     }, { threshold: 0.1 });
@@ -40,6 +52,33 @@ const InvestorsTable = () => {
       videoObserver.disconnect();
     };
   }, []);
+
+  // Animate points in sequence when section becomes active
+  useEffect(() => {
+    if (activeSection === 'investors') {
+      // Animate investor points one by one
+      const timer1 = setTimeout(() => setInvestorPointsVisible([0]), 300);
+      const timer2 = setTimeout(() => setInvestorPointsVisible([0,1]), 600);
+      const timer3 = setTimeout(() => setInvestorPointsVisible([0,1,2]), 900);
+      
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+        clearTimeout(timer3);
+      };
+    } else if (activeSection === 'startups') {
+      // Animate startup points one by one
+      const timer1 = setTimeout(() => setStartupPointsVisible([0]), 300);
+      const timer2 = setTimeout(() => setStartupPointsVisible([0,1]), 600);
+      const timer3 = setTimeout(() => setStartupPointsVisible([0,1,2]), 900);
+      
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+        clearTimeout(timer3);
+      };
+    }
+  }, [activeSection]);
 
   return (
     <section className="relative bg-gradient-to-b from-gray-900 to-[#0a0a0a] overflow-hidden">
@@ -140,7 +179,15 @@ const InvestorsTable = () => {
                 ].map((item, index) => (
                   <div 
                     key={`investor-${index}`}
-                    className="flex items-start p-4 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 transition-all duration-300 group"
+                    className={`flex items-start p-4 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 transition-all duration-300 group transform ${
+                      investorPointsVisible.includes(index) 
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 translate-y-6'
+                    }`}
+                    style={{
+                      transition: `opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                      transitionDelay: `${index * 0.2}s`
+                    }}
                   >
                     <div className="bg-[#FFD700]/10 p-2 rounded-lg mr-4 group-hover:bg-[#FFD700]/20 transition-all duration-300">
                       {item.icon}
@@ -149,11 +196,20 @@ const InvestorsTable = () => {
                       <h4 className="text-lg font-semibold text-white mb-1">{item.title}</h4>
                       <p className="text-gray-300 text-sm">{item.description}</p>
                     </div>
+                    {/* Animated indicator */}
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-[#FFD700] rounded-full animate-pulse"></div>
                   </div>
                 ))}
               </div>
               
-              <button className="mt-8 w-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-gray-900 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
+              <button 
+                className={`mt-8 w-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-gray-900 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02] ${
+                  investorPointsVisible.length === 3 ? 'opacity-100' : 'opacity-0'
+                }`}
+                style={{
+                  transition: `opacity 0.5s ease ${3 * 0.2 + 0.2}s`
+                }}
+              >
                 Explore Investment Opportunities
               </button>
             </div>
@@ -206,7 +262,15 @@ const InvestorsTable = () => {
                 ].map((item, index) => (
                   <div 
                     key={`startup-${index}`}
-                    className="flex items-start p-4 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 transition-all duration-300 group"
+                    className={`flex items-start p-4 rounded-lg bg-gray-800/50 hover:bg-gray-800/70 transition-all duration-300 group transform ${
+                      startupPointsVisible.includes(index) 
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 translate-y-6'
+                    }`}
+                    style={{
+                      transition: `opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)`,
+                      transitionDelay: `${index * 0.2}s`
+                    }}
                   >
                     <div className="bg-[#FFD700]/10 p-2 rounded-lg mr-4 group-hover:bg-[#FFD700]/20 transition-all duration-300">
                       {item.icon}
@@ -215,11 +279,20 @@ const InvestorsTable = () => {
                       <h4 className="text-lg font-semibold text-white mb-1">{item.title}</h4>
                       <p className="text-gray-300 text-sm">{item.description}</p>
                     </div>
+                    {/* Animated indicator */}
+                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-[#FFD700] rounded-full animate-pulse"></div>
                   </div>
                 ))}
               </div>
               
-              <button className="mt-8 w-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-gray-900 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02]">
+              <button 
+                className={`mt-8 w-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-gray-900 font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02] ${
+                  startupPointsVisible.length === 3 ? 'opacity-100' : 'opacity-0'
+                }`}
+                style={{
+                  transition: `opacity 0.5s ease ${3 * 0.2 + 0.2}s`
+                }}
+              >
                 Start Fundraising Journey
               </button>
             </div>

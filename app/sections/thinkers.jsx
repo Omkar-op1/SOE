@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 const ThinkersClubSection = () => {
   const floatingElementsRef = useRef(null);
   const btnRef = useRef(null);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     // Create floating elements
@@ -32,6 +33,16 @@ const ThinkersClubSection = () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add("animated");
+          
+          // Play video when it enters viewport
+          if (entry.target.classList.contains("video-container") && videoRef.current) {
+            videoRef.current.play();
+          }
+        } else {
+          // Pause video when it leaves viewport
+          if (entry.target.classList.contains("video-container") && videoRef.current) {
+            videoRef.current.pause();
+          }
         }
       });
     }, observerOptions);
@@ -195,18 +206,18 @@ const ThinkersClubSection = () => {
           }
         }
         
-        @keyframes imageSlideIn {
+        @keyframes videoSlideIn {
           0% {
             opacity: 0;
-            transform: translateX(100px) rotateY(-30deg);
+            transform: translateX(100px) rotateY(-30deg) scale(0.9);
           }
           70% {
             opacity: 0.8;
-            transform: translateX(-10px) rotateY(5deg);
+            transform: translateX(-10px) rotateY(5deg) scale(1.02);
           }
           100% {
             opacity: 1;
-            transform: translateX(0) rotateY(0deg);
+            transform: translateX(0) rotateY(0deg) scale(1);
           }
         }
         
@@ -232,6 +243,11 @@ const ThinkersClubSection = () => {
             transform: scale(2);
             opacity: 0;
           }
+        }
+        
+        @keyframes videoGlow {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.3); }
+          50% { box-shadow: 0 0 30px 10px rgba(255, 215, 0, 0.5); }
         }
         
         .sot-section {
@@ -436,28 +452,81 @@ const ThinkersClubSection = () => {
         .w3-col:last-child {
           position: relative;
           opacity: 0;
-          animation: imageSlideIn 1.5s ease-out 2s forwards;
+          animation: videoSlideIn 1.5s ease-out 2s forwards;
         }
         
-        .w3-col img {
-          width: 100%;
-          height: auto;
-          border-radius: 20px;
+        .video-container {
           position: relative;
-          transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          filter: brightness(0.9) contrast(1.1) saturate(0.8);
+          width: 100%;
+          border-radius: 20px;
+          overflow: hidden;
           box-shadow: 
             0 20px 40px rgba(0, 0, 0, 0.3),
             0 0 0 1px rgba(255, 215, 0, 0.1);
+          transform-style: preserve-3d;
+          transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        .w3-col img:hover {
+        .video-container:hover {
           transform: scale(1.03) rotateY(5deg) rotateX(2deg);
-          filter: brightness(1.1) contrast(1.2) saturate(1);
           box-shadow: 
             0 30px 60px rgba(0, 0, 0, 0.4),
             0 0 0 1px rgba(255, 215, 0, 0.3),
             0 0 50px rgba(255, 215, 0, 0.1);
+          animation: videoGlow 2s infinite;
+        }
+        
+        .video-container video {
+          width: 100%;
+          height: auto;
+          border-radius: 20px;
+          display: block;
+          transition: transform 0.5s ease;
+        }
+        
+        .video-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(45deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          border-radius: 20px;
+        }
+        
+        .video-container:hover .video-overlay {
+          opacity: 1;
+        }
+        
+        .play-icon {
+          width: 80px;
+          height: 80px;
+          background: rgba(255, 215, 0, 0.7);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transform: scale(0.8);
+          transition: transform 0.3s ease;
+        }
+        
+        .video-container:hover .play-icon {
+          transform: scale(1);
+        }
+        
+        .play-icon::after {
+          content: '';
+          width: 0;
+          height: 0;
+          border-top: 15px solid transparent;
+          border-left: 25px solid #000;
+          border-bottom: 15px solid transparent;
+          margin-left: 8px;
         }
         
         .floating-elements {
@@ -520,6 +589,11 @@ const ThinkersClubSection = () => {
           h2 {
             font-size: 3rem;
           }
+          
+          .video-container {
+            max-width: 600px;
+            margin: 0 auto;
+          }
         }
         
         @media (max-width: 768px) {
@@ -561,12 +635,22 @@ const ThinkersClubSection = () => {
                 </a>
               </div>
             </div>
-            <div className="w3-col m6 animate-on-scroll">
-              <img
-                src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                alt="Thinkers Club"
-                style={{ width: "100%" }}
-              />
+            <div className="w3-col m6 animate-on-scroll video-container">
+              <video 
+                ref={videoRef}
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                className="video-element"
+              >
+                <source src="/videos/thinkersclub.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <div className="video-overlay">
+                <div className="play-icon"></div>
+              </div>
             </div>
           </div>
         </div>
