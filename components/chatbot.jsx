@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import BrandButton from '@/components/button';
 import { useRouter } from 'next/navigation';
 
 const FAQ = () => {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const router = useRouter();
+  const containerRef = useRef(null);
   
   const faqs = [
     {
@@ -38,46 +39,211 @@ const FAQ = () => {
     setActiveQuestion(activeQuestion === index ? null : index);
   };
 
+  // Create floating thought bubbles
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    
+    const thoughtBubbles = () => {
+      const bubbleCount = 8;
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'thought-bubble';
+        
+        // Random properties
+        const size = Math.random() * 20 + 10;
+        const left = Math.random() * 100;
+        const animationDuration = Math.random() * 15 + 10;
+        const animationDelay = Math.random() * 5;
+        
+        bubble.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${left}%;
+          background: rgba(255, 215, 0, ${Math.random() * 0.2 + 0.05});
+          animation-duration: ${animationDuration}s;
+          animation-delay: ${animationDelay}s;
+        `;
+        
+        container.appendChild(bubble);
+      }
+    };
+    
+    thoughtBubbles();
+    
+    return () => {
+      const bubbles = document.querySelectorAll('.thought-bubble');
+      bubbles.forEach(bubble => bubble.remove());
+    };
+  }, []);
+
   return (
-    <div className="bg-[var(--color--campus-bg)] border border-[var(--color--white50)] rounded-xl p-8 max-w-2xl mx-auto my-12 shadow-lg">
-      <div className="text-center mb-8">
-        <h3 className="text-[var(--color--light-gold)] text-2xl mb-2">Thinkers Club FAQ</h3>
-        <div className="h-0.5 w-16 bg-[var(--color--gold)] mx-auto my-3"></div>
-        <p className="text-[var(--color--white50)] text-sm">Click on questions to reveal answers</p>
+    <div 
+      ref={containerRef}
+      className="bg-[#0a0a0a] border border-[#2a2a2a] rounded-2xl p-8 max-w-2xl mx-auto my-16 shadow-xl relative overflow-hidden"
+    >
+      {/* Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent"></div>
+      <div className="absolute top-4 left-4 w-3 h-3 rounded-full bg-[#FFD700] animate-pulse"></div>
+      <div className="absolute bottom-4 right-4 w-3 h-3 rounded-full bg-[#FFD700] animate-pulse"></div>
+      
+      {/* Header */}
+      <div className="text-center mb-10 relative z-10">
+        <div className="inline-block bg-[#1a1a1a] p-4 rounded-full mb-4 border border-[#FFD700]/20">
+          <svg 
+            className="w-10 h-10 text-[#FFD700] animate-float" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="1.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          >
+            <path d="M9.5 3a6.5 6.5 0 0 1 6.5 6.5c0 4-6 9-6 9s-6-5-6-9A6.5 6.5 0 0 1 9.5 3z" />
+            <path d="M14 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+          </svg>
+        </div>
+        <h3 className="text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-[#FFD700] to-[#FFA500]">
+          Thinkers Club FAQ
+        </h3>
+        <p className="text-[#aaa] max-w-md mx-auto">
+          Answers to common questions about our exclusive thinkers community
+        </p>
+        <div className="h-px w-24 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent mx-auto my-6"></div>
       </div>
       
-      <div className="border-t border-[var(--color--white50)]">
+      {/* FAQ Items */}
+      <div className="space-y-4 relative z-10">
         {faqs.map((faq, index) => (
           <div 
-            key={index} 
-            className={`border-b border-[var(--color--white50)] py-5 cursor-pointer transition-all duration-300 ${
-              activeQuestion === index ? 'bg-[rgba(255,255,255,0.03)]' : ''
-            } hover:bg-[rgba(255,255,255,0.03)]`}
+            key={index}
+            className={`rounded-xl p-5 cursor-pointer transition-all duration-500 overflow-hidden ${
+              activeQuestion === index 
+                ? 'bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] border border-[#FFD700]/30 shadow-[0_0_20px_rgba(255,215,0,0.1)]'
+                : 'bg-[#121212] hover:bg-[#1a1a1a] border border-[#2a2a2a]'
+            }`}
             onClick={() => toggleQuestion(index)}
           >
-            <div className="flex justify-between items-center font-medium text-[var(--color--white)] text-lg">
-              <span>{faq.question}</span>
-              <span className="text-[var(--color--gold)] text-xl font-light ml-4">
-                {activeQuestion === index ? '−' : '+'}
-              </span>
-            </div>
-            {activeQuestion === index && (
-              <div className="pt-4 text-[var(--color--white70)] leading-relaxed">
-                {faq.answer.split('\n').map((paragraph, i) => (
-                  <p key={i} className="mb-3 last:mb-0">{paragraph}</p>
-                ))}
+            <div className="flex items-start">
+              <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mr-4 mt-1 transition-all ${
+                activeQuestion === index 
+                  ? 'bg-[#FFD700] text-black'
+                  : 'bg-[#2a2a2a] text-[#FFD700]'
+              }`}>
+                <span className="font-bold text-sm">
+                  {activeQuestion === index ? '−' : '+'}
+                </span>
               </div>
-            )}
+              
+              <div className="flex-1">
+                <h4 className={`font-medium text-lg transition-all ${
+                  activeQuestion === index 
+                    ? 'text-[#FFD700]'
+                    : 'text-white'
+                }`}>
+                  {faq.question}
+                </h4>
+                
+                <div 
+                  className={`overflow-hidden transition-all duration-500 ${
+                    activeQuestion === index 
+                      ? 'max-h-[1000px] mt-4 opacity-100'
+                      : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <div className="pl-2 border-l-2 border-[#FFD700]/50">
+                    {faq.answer.split('\n').map((paragraph, i) => (
+                      <p 
+                        key={i} 
+                        className="text-[#ccc] mb-3 last:mb-0 leading-relaxed animate-fadeIn"
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         ))}
       </div>
       
-      <div className="text-center mt-8 pt-6 border-t border-[var(--color--white50)]">
-        <p className="text-[var(--color--white70)] mb-6">Ready to join Thinkers Club?</p>
-        <div className="flex justify-center">
-          <BrandButton label="Become a member" onClick={() => router.push('/register')} />
+      {/* CTA Section */}
+      <div className="text-center mt-12 pt-8 relative z-10 border-t border-[#2a2a2a]">
+        <div className="inline-flex items-center justify-center bg-[#1a1a1a] border border-[#FFD700]/20 rounded-full px-6 py-2 mb-6 animate-pulse-slow">
+          <span className="text-[#FFD700] mr-2">✦</span>
+          <span className="text-white font-medium">Exclusive Membership</span>
+          <span className="text-[#FFD700] ml-2">✦</span>
         </div>
+        
+        <p className="text-xl text-white mb-6 max-w-md mx-auto">
+          Ready to join our community of innovators and thinkers?
+        </p>
+        
+        <div className="animate-bounce-slow">
+          <BrandButton 
+            label="Become a Member" 
+            onClick={() => router.push('/register')}
+            className="transform transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(255,215,0,0.3)]"
+          />
+        </div>
+        
+        <p className="text-[#777] text-sm mt-6">
+          Limited spots available - Join our elite thinkers community today
+        </p>
       </div>
+
+      <style jsx global>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+        
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
+        }
+        
+        @keyframes floatBubble {
+          0% { transform: translateY(100px) scale(0.5); opacity: 0; }
+          20% { opacity: 0.4; }
+          90% { opacity: 0.4; }
+          100% { transform: translateY(-50px) scale(1); opacity: 0; }
+        }
+        
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+        
+        .animate-fadeIn {
+          animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .animate-bounce-slow {
+          animation: bounce-slow 3s infinite;
+        }
+        
+        .animate-pulse-slow {
+          animation: pulse-slow 3s infinite;
+        }
+        
+        .thought-bubble {
+          position: absolute;
+          border-radius: 50%;
+          animation: floatBubble linear infinite;
+          z-index: 0;
+        }
+      `}</style>
     </div>
   );
 };
