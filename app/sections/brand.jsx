@@ -32,11 +32,12 @@ const BrandsTestimonials = () => {
         <h3 className="section-subtitle animate-on-scroll">BRANDS ASSOCIATED</h3>
         <div className="brands-grid">
           {[
-            { src: "images/R17.png", alt: "Brand 1" },
-            { src: "images/incubein.png", alt: "Brand 2" },
-            { src: "images/TukdojiMaharaj.png", alt: "Brand 3" },
-            { src: "images/shortcut.png", alt: "Brand 4" }
-          ].map((brand, index) => (
+  { src: "images/brand1.png", alt: "Brand 1" },
+  { src: "images/brand2.png", alt: "Brand 2" },
+  { src: "images/brand3.png", alt: "Brand 3" },
+  { src: "images/brand4.png", alt: "Brand 4" }
+]
+.map((brand, index) => (
             <div 
               key={index} 
               className="brand-item animate-on-scroll"
@@ -118,86 +119,110 @@ const BrandsTestimonials = () => {
 
       <style jsx>{`
         .brands-section {
-          padding: 60px 20px;
-          background: #0f0f0f;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .brands-section::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: 
-            radial-gradient(circle at 20% 30%, rgba(255, 165, 0, 0.03) 0%, transparent 30%),
-            radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.02) 0%, transparent 40%);
-        }
-        
-        .section-subtitle {
-          text-align: center;
-          font-size: 1.8rem;
-          margin-bottom: 40px;
-          background: linear-gradient(45deg, #FFD700, #FFA500);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          font-weight: 700;
-          animation: floatUp 0.8s ease-out forwards;
-          opacity: 0;
-        }
-        
-        .brands-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 40px;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-        
-        .brand-item {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 120px;
-          background: rgba(20, 20, 20, 0.7);
-          border-radius: 12px;
-          padding: 20px;
-          transition: all 0.4s ease;
-          border: 1px solid rgba(255, 215, 0, 0.1);
-          backdrop-filter: blur(4px);
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        
-        .brand-item.animated {
-          animation: floatUp 0.6s ease-out forwards;
-        }
-        
-        .brand-logo {
-          max-height: 60px;
-          max-width: 100%;
-          transition: all 0.4s ease;
-          filter: grayscale(100%) brightness(0.8);
-          opacity: 0.7;
-          animation: logoFloat 4s ease-in-out infinite;
-        }
-        
-        .brand-item:hover .brand-logo {
-          transform: scale(1.15) rotate(3deg);
-          filter: grayscale(0%) brightness(1.1);
-          opacity: 1;
-          animation: none;
-        }
-        
-        .brand-item:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
-                      0 0 25px rgba(255, 215, 0, 0.15);
-          border-color: rgba(255, 215, 0, 0.3);
-        }
+  padding: 60px 20px;
+  background: #0f0f0f;
+  position: relative;
+  overflow: hidden;
+}
+
+.brands-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 165, 0, 0.03) 0%, transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.02) 0%, transparent 40%);
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 40px;
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  animation: floatUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.brand-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  background: rgba(20, 20, 20, 0.7);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.4s ease;
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: translateY(20px);
+  overflow: hidden;
+}
+
+.brand-item.animated {
+  animation: floatUp 0.6s ease-out forwards;
+}
+
+.brand-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: all 0.4s ease;
+  filter: grayscale(100%) brightness(0.8);
+  opacity: 0.7;
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+.brand-item:hover .brand-logo {
+  transform: scale(1.15) rotate(3deg);
+  filter: grayscale(0%) brightness(1.1);
+  opacity: 1;
+  animation: none;
+}
+
+.brand-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
+              0 0 25px rgba(255, 215, 0, 0.15);
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+/* Optional animations */
+@keyframes floatUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
         
         .testimonials-section {
           background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
