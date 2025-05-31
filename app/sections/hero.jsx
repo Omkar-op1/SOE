@@ -128,7 +128,7 @@ export default function Hero() {
           {/* Logo Area */}
           <div className="md:flex-[0_0_50%] flex-1 flex justify-center items-center md:mt-[-50px]">
             <img
-              src="/theidea.webp"
+              src="theidea.webp"
               alt="School of Entrepreneurs Logo"
               className="w-[400px] h-auto object-contain opacity-0 translate-y-[30px] animate-[fadeInUp_1s_ease_forwards_0.4s]"
             />
