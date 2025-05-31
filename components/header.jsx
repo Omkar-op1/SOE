@@ -34,7 +34,7 @@ const Navbar = () => {
                 src="tic.png" 
                 loading="lazy" 
                 width="140" 
-                alt="theideacompany.com logo" 
+                alt="" 
                 className="university-logo" 
               />
             </Link>
@@ -80,7 +80,7 @@ const Navbar = () => {
       <div className={`topnav ${isMobileMenuOpen ? 'responsive' : ''}`} id="myTopnav">
         <div className="mobile-header">
           <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-            <img src="/images/theidea.png" alt="theideacompany.com logo" className="university-logo" />
+            <img src="tic.png" alt="" className="university-logo" />
           </Link>
           <a 
             href="#" 
