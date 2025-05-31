@@ -1,146 +1,162 @@
-'use client'
-import React, { useEffect, useRef, useState } from 'react';
+"use client"
+import { useEffect, useRef, useState } from "react"
 
 const ProductsCarousel = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const floatingElementsRef = useRef(null);
-  const intervalRef = useRef(null);
-  const videoRefs = useRef([]);
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const floatingElementsRef = useRef(null)
+  const intervalRef = useRef(null)
+  const videoRefs = useRef([])
 
   const products = [
     {
-      id: 'thinkers-club',
-      title: 'Thinkers Club',
-      subtitle: 'Daily Business Ideas',
-      description: 'Panel of Analysts and Experts who create business ideas with 99.9% Success Rate.',
-      features: 'World class Custom Built Application with 8+ Learning Groups.',
-      buttonText: 'Join Thinkers Club',
-      videoSrc: 'Thinkers_Club.mp4',
+      id: "thinkers-club",
+      title: "Thinkers Club",
+      subtitle: "Daily Business Ideas",
+      description: "Panel of Analysts and Experts who create business ideas with 99.9% Success Rate.",
+      features: "World class Custom Built Application with 8+ Learning Groups.",
+      buttonText: "Join Thinkers Club",
+      videoSrc: "Thinkers_Club.mp4",
     },
     {
-      id: 'investors-table',
-      title: 'Investors Table',
-      subtitle: 'Get Direct Access to Investors',
-      description: 'Get Direct Access to Investors who invest specifically in your Sector of Business.',
-      features: 'Schedule Meetings Directly with Investors through Inbuilt Meeting and chat options. Get all Legal and Documentation Services completed by our team using our Custom built Hassle-Free User Interface.',
-      buttonText: 'Access Investors',
-      videoSrc: 'Investors_Table.mp4',
+      id: "investors-table",
+      title: "Investors Table",
+      subtitle: "Get Direct Access to Investors",
+      description: "Get Direct Access to Investors who invest specifically in your Sector of Business.",
+      features:
+        "Schedule Meetings Directly with Investors through Inbuilt Meeting and chat options. Get all Legal and Documentation Services completed by our team using our Custom built Hassle-Free User Interface.",
+      buttonText: "Access Investors",
+      videoSrc: "Investors_Table.mp4",
     },
     {
-      id: 'idea-community',
-      title: 'Idea Community',
-      subtitle: 'Hire Working Professionals',
-      description: 'Hire from a plethora of Working Professionals.',
-      features: 'Get access to professionals who are Willing to work in Startups. Hand-Pick and Create your Dream Team.',
-      buttonText: 'Join Community',
-      videoSrc: 'Idea_Community.mp4',
-    }
-  ];
+      id: "idea-community",
+      title: "Idea Community",
+      subtitle: "Hire Working Professionals",
+      description: "Hire from a plethora of Working Professionals.",
+      features:
+        "Get access to professionals who are Willing to work in Startups. Hand-Pick and Create your Dream Team.",
+      buttonText: "Join Community",
+      videoSrc: "Idea_Community.mp4",
+    },
+  ]
 
   useEffect(() => {
-    const container = floatingElementsRef.current;
-    if (!container) return;
-    
-    const elementCount = 20;
-    container.innerHTML = "";
+    const container = floatingElementsRef.current
+    if (!container) return
+
+    const elementCount = 30 // Increased from 20
+    container.innerHTML = ""
 
     for (let i = 0; i < elementCount; i++) {
-      const element = document.createElement("div");
-      element.className = "floating-element";
-      element.style.left = Math.random() * 100 + "%";
-      element.style.animationDelay = Math.random() * 8 + "s";
-      element.style.animationDuration = (Math.random() * 4 + 8) + "s";
-      container.appendChild(element);
+      const element = document.createElement("div")
+      element.className = "floating-element"
+      element.style.left = Math.random() * 100 + "%"
+      element.style.animationDelay = Math.random() * 8 + "s"
+      element.style.animationDuration = Math.random() * 4 + 8 + "s"
+
+      // Add different shapes and sizes
+      if (i % 5 === 0) {
+        element.style.width = "10px"
+        element.style.height = "10px"
+        element.style.borderRadius = "2px"
+        element.style.transform = `rotate(${Math.random() * 360}deg)`
+      } else if (i % 7 === 0) {
+        element.style.width = "8px"
+        element.style.height = "8px"
+        element.style.clipPath = "polygon(50% 0%, 0% 100%, 100% 100%)"
+      }
+
+      container.appendChild(element)
     }
 
     const startAutoPlay = () => {
       intervalRef.current = setInterval(() => {
-        setCurrentSlide(prev => (prev + 1) % products.length);
-      }, 10000);
-    };
-
-    startAutoPlay();
-
-    let mouseX = 0;
-    let mouseY = 0;
-
-    const handleMouseMove = (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    };
-    
-    window.addEventListener("mousemove", handleMouseMove);
-
-    function animateParallax() {
-      const floatingElements = document.querySelectorAll(".floating-element");
-      
-      floatingElements.forEach((element, index) => {
-        const speed = (index % 3 + 1) * 0.3;
-        const x = mouseX * speed * 10;
-        const y = mouseY * speed * 10;
-        
-        element.style.transform = `translate(${x}px, ${y}px)`;
-      });
-
-      requestAnimationFrame(animateParallax);
+        setCurrentSlide((prev) => (prev + 1) % products.length)
+      }, 10000)
     }
 
-    animateParallax();
+    startAutoPlay()
+
+    let mouseX = 0
+    let mouseY = 0
+
+    const handleMouseMove = (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+
+    function animateParallax() {
+      const floatingElements = document.querySelectorAll(".floating-element")
+
+      floatingElements.forEach((element, index) => {
+        const speed = ((index % 3) + 1) * 0.3
+        const x = mouseX * speed * 10
+        const y = mouseY * speed * 10
+
+        element.style.transform = `translate(${x}px, ${y}px)`
+      })
+
+      requestAnimationFrame(animateParallax)
+    }
+
+    animateParallax()
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove)
       if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+        clearInterval(intervalRef.current)
       }
-    };
-  }, [products.length]);
+    }
+  }, [products.length])
 
   useEffect(() => {
     videoRefs.current.forEach((video, index) => {
       if (video) {
         if (index === currentSlide) {
-          video.play().catch(() => {});
+          video.play().catch(() => {})
         } else {
-          video.pause();
+          video.pause()
         }
       }
-    });
-  }, [currentSlide]);
+    })
+  }, [currentSlide])
 
   const handleSlideChange = (index) => {
-    setCurrentSlide(index);
+    setCurrentSlide(index)
+
     if (intervalRef.current) {
-      clearInterval(intervalRef.current);
+      clearInterval(intervalRef.current)
     }
     intervalRef.current = setInterval(() => {
-      setCurrentSlide(prev => (prev + 1) % products.length);
-    }, 6000);
-  };
+      setCurrentSlide((prev) => (prev + 1) % products.length)
+    }, 6000)
+  }
 
   const handleButtonClick = (e) => {
-    const btn = e.currentTarget;
-    const ripple = document.createElement("span");
-    const rect = btn.getBoundingClientRect();
-    const size = Math.max(rect.height, rect.width);
-    const x = e.clientX - rect.left - size / 2;
-    const y = e.clientY - rect.top - size / 2;
-    
-    ripple.style.position = "absolute";
-    ripple.style.width = ripple.style.height = size + "px";
-    ripple.style.left = x + "px";
-    ripple.style.top = y + "px";
-    ripple.style.background = "rgba(255, 255, 255, 0.5)";
-    ripple.style.borderRadius = "50%";
-    ripple.style.transform = "scale(0)";
-    ripple.style.animation = "ripple 0.6s linear";
-    ripple.style.pointerEvents = "none";
-    
-    btn.appendChild(ripple);
-    
+    const btn = e.currentTarget
+    const ripple = document.createElement("span")
+    const rect = btn.getBoundingClientRect()
+    const size = Math.max(rect.height, rect.width)
+    const x = e.clientX - rect.left - size / 2
+    const y = e.clientY - rect.top - size / 2
+
+    ripple.style.position = "absolute"
+    ripple.style.width = ripple.style.height = size + "px"
+    ripple.style.left = x + "px"
+    ripple.style.top = y + "px"
+    ripple.style.background = "rgba(255, 255, 255, 0.5)"
+    ripple.style.borderRadius = "50%"
+    ripple.style.transform = "scale(0)"
+    ripple.style.animation = "ripple 0.6s linear"
+    ripple.style.pointerEvents = "none"
+
+    btn.appendChild(ripple)
+
     setTimeout(() => {
-      ripple.remove();
-    }, 600);
-  };
+      ripple.remove()
+    }, 600)
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] font-sans overflow-hidden">
@@ -249,6 +265,56 @@ const ProductsCarousel = () => {
           }
         }
         
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+
+        @keyframes rotateIn {
+          0% {
+            transform: perspective(1000px) rotateY(90deg);
+            opacity: 0;
+          }
+          100% {
+            transform: perspective(1000px) rotateY(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+          }
+          40% {
+            transform: translateY(-20px);
+          }
+          60% {
+            transform: translateY(-10px);
+          }
+        }
+
+        @keyframes glowPulse {
+          0%, 100% {
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
+          }
+          50% {
+            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.7));
+          }
+        }
+
+        @keyframes orbit {
+          0% {
+            transform: rotate(0deg) translateX(50px) rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg) translateX(50px) rotate(-360deg);
+          }
+        }
+        
         .carousel-container {
           position: relative;
           width: 100%;
@@ -344,7 +410,37 @@ const ProductsCarousel = () => {
           opacity: 1;
           transform: translateX(0);
           pointer-events: auto;
-          animation: slideIn 0.8s ease-out;
+          animation: rotateIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .slide.active .slide-text h2 {
+          animation: textReveal 0.8s 0.3s ease-out;
+          opacity: 1;
+          transform: translateY(0) rotateX(0deg);
+        }
+
+        .slide.active .slide-text h3 {
+          animation: textReveal 0.8s 0.5s ease-out;
+          opacity: 1;
+          transform: translateY(0) rotateX(0deg);
+        }
+
+        .slide.active .slide-text p {
+          animation: textReveal 0.8s 0.7s ease-out;
+          opacity: 1;
+          transform: translateY(0) rotateX(0deg);
+        }
+
+        .slide.active .slide-text .slide-btn {
+          animation: bounce 1s 1s ease-out;
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .slide.active .video-container {
+          animation: rotateIn 1s 0.5s ease-out;
+          opacity: 1;
+          transform: perspective(1000px) rotateY(0);
         }
         
         .slide-content {
@@ -374,6 +470,27 @@ const ProductsCarousel = () => {
           position: relative;
           overflow: hidden;
         }
+
+        .slide-text h2,
+        .slide-text h3,
+        .slide-text p,
+        .slide-text .slide-btn {
+          opacity: 0;
+          transform: translateY(100px) rotateX(-90deg);
+        }
+
+        .video-container {
+          opacity: 0;
+          transform: perspective(1000px) rotateY(90deg);
+        }
+
+        .slide.active .slide-text h2,
+        .slide.active .slide-text h3,
+        .slide.active .slide-text p,
+        .slide.active .slide-text .slide-btn,
+        .slide.active .video-container {
+          opacity: 1;
+        }
         
         h2 strong {
           display: inline-block;
@@ -383,6 +500,26 @@ const ProductsCarousel = () => {
           -webkit-text-fill-color: transparent;
           background-clip: text;
           animation: gradientWave 4s ease-in-out infinite;
+          position: relative;
+        }
+
+        h2 strong::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.4), 
+            transparent
+          );
+          background-size: 200% 100%;
+          animation: shimmer 3s infinite;
+          z-index: 1;
+          -webkit-background-clip: text;
+          background-clip: text;
         }
         
         h3 {
@@ -427,6 +564,7 @@ const ProductsCarousel = () => {
           letter-spacing: 1px;
           border: none;
           cursor: pointer;
+          animation: glowPulse 2s infinite;
         }
         
         .slide-btn::before {
@@ -472,6 +610,34 @@ const ProductsCarousel = () => {
             0 0 0 1px rgba(255, 215, 0, 0.3),
             0 0 50px rgba(255, 215, 0, 0.1);
           animation: videoGlow 2s infinite;
+        }
+
+        .video-container::before {
+          content: '';
+          position: absolute;
+          top: -20px;
+          left: -20px;
+          width: 40px;
+          height: 40px;
+          background: rgba(255, 215, 0, 0.6);
+          border-radius: 50%;
+          filter: blur(10px);
+          z-index: -1;
+          animation: orbit 8s linear infinite;
+        }
+
+        .video-container::after {
+          content: '';
+          position: absolute;
+          bottom: -20px;
+          right: -20px;
+          width: 40px;
+          height: 40px;
+          background: rgba(255, 165, 0, 0.6);
+          border-radius: 50%;
+          filter: blur(10px);
+          z-index: -1;
+          animation: orbit 8s linear infinite reverse;
         }
         
         .video-container video {
@@ -561,30 +727,26 @@ const ProductsCarousel = () => {
         </div>
 
         <div className="floating-elements" ref={floatingElementsRef}></div>
-        
+
         <div className="carousel-slides">
           {products.map((product, index) => (
-            <div 
-              key={product.id} 
-              className={`slide ${index === currentSlide ? 'active' : ''}`}
-            >
+            <div key={product.id} className={`slide ${index === currentSlide ? "active" : ""}`}>
               <div className="slide-content">
                 <div className="slide-text">
-                  <h2><strong>{product.title}</strong></h2>
+                  <h2>
+                    <strong>{product.title}</strong>
+                  </h2>
                   <h3>{product.subtitle}</h3>
                   <p className="slide-description">{product.description}</p>
                   <p className="slide-features">{product.features}</p>
-                  <button 
-                    className="slide-btn"
-                    onClick={handleButtonClick}
-                  >
+                  <button className="slide-btn" onClick={handleButtonClick}>
                     {product.buttonText}
                   </button>
                 </div>
                 <div className="slide-video">
                   <div className="video-container">
-                    <video 
-                      ref={el => videoRefs.current[index] = el}
+                    <video
+                      ref={(el) => (videoRefs.current[index] = el)}
                       autoPlay
                       muted
                       loop
@@ -600,19 +762,19 @@ const ProductsCarousel = () => {
             </div>
           ))}
         </div>
-        
+
         <div className="carousel-dots">
           {products.map((_, index) => (
             <div
               key={index}
-              className={`dot ${index === currentSlide ? 'active' : ''}`}
+              className={`dot ${index === currentSlide ? "active" : ""}`}
               onClick={() => handleSlideChange(index)}
             />
           ))}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductsCarousel;
+export default ProductsCarousel
