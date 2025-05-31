@@ -146,7 +146,6 @@ const InvestorsTable = () => {
               playsInline
             >
               <source src="/videos/investor.mp4" type="video/mp4" />
-
               Your browser does not support the video tag.
             </video>
             <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/80 to-transparent">
@@ -198,26 +197,26 @@ const InvestorsTable = () => {
                     </svg>
                   ),
                   title: "Discover Startups",
-                  description: "Access curated early-stage startups with expert recommendations for optimal returns."
+                  description: "Discover early-stage startups with expert recommendations to invest in those offering the best returns."
                 },
                 {
                   icon: (
                     <svg className="w-5 h-5 md:w-6 md:h-6 text-[#FFD700]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
-                      <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
+                      <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1z" clipRule="evenodd" />
+                      <path d="M12 16a4 4 0 100-8 4 4 0 000 8z" />
                     </svg>
                   ),
-                  title: "Compliance Management",
-                  description: "Our legal team handles all compliance so you can focus on investment decisions."
+                  title: "Personal Compliance Manager",
+                  description: "Our expert lawyers and accountants handle all legal and government compliance, letting you focus on securing better deals while we manage your back-office."
                 },
                 {
                   icon: (
                     <svg className="w-5 h-5 md:w-6 md:h-6 text-[#FFD700]" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      <path fillRule="evenodd" d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm8 1a1 1 0 100-2 1 1 0 000 2zm-3-1a1 1 0 11-2 0 1 1 0 012 0zm7 1a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                     </svg>
                   ),
-                  title: "Streamlined Deals",
-                  description: "Direct video connections with founders for transparent, efficient deal closures."
+                  title: "Smooth and Efficient Closing",
+                  description: "Our platform connects investors and founders via video conferencing and chat, enabling transparent communication and swift deal closures."
                 }
               ].map((item, index) => (
                 <div 
