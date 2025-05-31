@@ -91,6 +91,17 @@ export default function Hero() {
 
   return (
     <section className="relative py-[100px] bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d] to-[#0a0a0a] overflow-hidden font-sans text-[#ccc] before:content-[''] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_25%_25%,rgba(255,215,0,0.08)_0%,transparent_40%),radial-gradient(circle_at_75%_75%,rgba(255,165,0,0.06)_0%,transparent_40%),radial-gradient(circle_at_50%_50%,rgba(255,215,0,0.04)_0%,transparent_60%)] before:animate-backgroundFlow before:z-0 after:content-[''] after:absolute after:inset-0 after:bg-[linear-gradient(45deg,rgba(255,215,0,0.02)_25%,transparent_25%),linear-gradient(-45deg,rgba(255,215,0,0.02)_25%,transparent_25%),linear-gradient(45deg,transparent_75%,rgba(255,215,0,0.02)_75%),linear-gradient(-45deg,transparent_75%,rgba(255,215,0,0.02)_75%)] after:bg-[length:60px_60px] after:animate-patternShift after:pointer-events-none after:z-0">
+      
+      {/* Checkered pattern transition overlay */}
+      <div className="absolute inset-0 z-[1] pointer-events-none">
+        {/* Top fade - subtle */}
+        <div className="absolute top-0 left-0 right-0 h-[5px] bg-gradient-to-b from-[#050815] via-[rgba(5,8,21,0.7)] to-transparent z-[1]"></div>
+        
+        {/* Bottom fade - stronger transition */}
+        <div className="absolute bottom-0 left-0 right-0 h-[120px] bg-gradient-to-t from-[#050815] via-[rgba(5,8,21,0.9)] to-transparent z-[1]"></div>
+       
+      </div>
+
       <div className="max-w-[1200px] mx-auto px-5 relative z-[3]">
         <div className="flex items-center gap-[60px] md:flex-row flex-col">
           {/* Text Content */}
@@ -106,20 +117,12 @@ export default function Hero() {
             <p className="text-[1.3rem] leading-[1.5] text-[#ddd] max-w-[600px] mb-[30px] tracking-[0.04em] opacity-0 translate-y-[30px] animate-[fadeInUp_1.2s_ease_forwards_0.3s]">
               Empowering the next generation of innovators, leaders, and dreamers. Start your journey of entrepreneurship today.
             </p>
-            {/* <button
-              className="relative overflow-hidden bg-gradient-to-br from-[#FFA500] to-[#FFD700] text-[#222] font-black text-[1.2rem] py-5 px-[50px] rounded-[60px] cursor-pointer border-none outline-none shadow-[inset_0_0_10px_#fff,0_4px_15px_rgba(255,165,0,0.5)] select-none transition-all duration-300 ease-in-out z-[2] tracking-[0.06em] hover:-translate-y-2 hover:shadow-[inset_0_0_12px_#fff,0_8px_30px_rgba(255,165,0,0.7)] opacity-0 translate-y-[30px] animate-[fadeInUp_1s_ease_forwards_0.6s]"
-              onClick={handleButtonClick}
-              ref={btnRef}
-            >
-              Join Now
-            </button> */}
             <br />
             <br />
-             <BrandButton
-      label="Join Us"
-      onClick={() => router.push('https://admin.theideacompany.io/login')}
-      
-    />
+            <BrandButton
+              label="Join Us"
+              onClick={() => router.push('https://admin.theideacompany.io/login')}
+            />
           </div>
 
           {/* Logo Area */}
@@ -131,9 +134,12 @@ export default function Hero() {
             />
           </div>
         </div>
+        <br />
+        <br />
       </div>
+      
       <div
-        className="absolute inset-0 pointer-events-none overflow-visible z-[1]"
+        className="absolute inset-0 pointer-events-none overflow-visible z-[2]"
         ref={floatingRef}
       ></div>
     </section>
