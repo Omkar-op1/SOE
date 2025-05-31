@@ -5,11 +5,12 @@ const InvestorsTable = () => {
   const videoRef = useRef(null);
   const investorSectionRef = useRef(null);
   const startupSectionRef = useRef(null);
-  const [activeSection, setActiveSection] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   
-  // Animation states for points
+  // Animation states
+  const [investorVisible, setInvestorVisible] = useState(false);
+  const [startupVisible, setStartupVisible] = useState(false);
   const [investorPointsVisible, setInvestorPointsVisible] = useState([]);
   const [startupPointsVisible, setStartupPointsVisible] = useState([]);
 
@@ -20,11 +21,10 @@ const InvestorsTable = () => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate-fadeInUp');
           
-          // Set active section
           if (entry.target === investorSectionRef.current) {
-            setActiveSection('investors');
+            setInvestorVisible(true);
           } else if (entry.target === startupSectionRef.current) {
-            setActiveSection('startups');
+            setStartupVisible(true);
           }
         }
       });
@@ -78,10 +78,9 @@ const InvestorsTable = () => {
     }
   };
 
-  // Animate points in sequence when section becomes active
+  // Animate points when section becomes visible
   useEffect(() => {
-    if (activeSection === 'investors') {
-      // Animate investor points one by one
+    if (investorVisible) {
       const timer1 = setTimeout(() => setInvestorPointsVisible([0]), 300);
       const timer2 = setTimeout(() => setInvestorPointsVisible([0,1]), 600);
       const timer3 = setTimeout(() => setInvestorPointsVisible([0,1,2]), 900);
@@ -91,8 +90,11 @@ const InvestorsTable = () => {
         clearTimeout(timer2);
         clearTimeout(timer3);
       };
-    } else if (activeSection === 'startups') {
-      // Animate startup points one by one
+    }
+  }, [investorVisible]);
+
+  useEffect(() => {
+    if (startupVisible) {
       const timer1 = setTimeout(() => setStartupPointsVisible([0]), 300);
       const timer2 = setTimeout(() => setStartupPointsVisible([0,1]), 600);
       const timer3 = setTimeout(() => setStartupPointsVisible([0,1,2]), 900);
@@ -103,10 +105,10 @@ const InvestorsTable = () => {
         clearTimeout(timer3);
       };
     }
-  }, [activeSection]);
+  }, [startupVisible]);
 
   return (
-    <section className="relative bg-gradient-to-b from-gray-900 to-[#0a0a0a] overflow-hidden">
+    <section className="relative bg-gradient-to-b from-gray-900 to-[#0a0a0a] overflow-hidden min-h-screen">
       {/* Floating gold particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -126,7 +128,7 @@ const InvestorsTable = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 relative z-10">
         <div className="text-center mb-8 md:mb-12 animate-on-scroll opacity-0">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-clip-text text-transparent mb-4">
-            Investment Table
+            Investment Platform
           </h2>
           <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
             Bridging visionary startups with strategic investors for mutual growth
@@ -151,20 +153,38 @@ const InvestorsTable = () => {
             <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black/80 to-transparent">
               <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="mb-3 md:mb-0">
-                  
+                  <span className="text-white text-sm">Investment Opportunities</span>
                 </div>
                 <div className="flex space-x-3">
                   <button 
                     onClick={togglePlay}
                     className="bg-[#FFD700]/20 hover:bg-[#FFD700]/30 p-2 rounded-full transition-colors"
                   >
-                    
+                    {isPlaying ? (
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    )}
                   </button>
                   <button 
                     onClick={toggleMute}
                     className="bg-[#FFD700]/20 hover:bg-[#FFD700]/30 p-2 rounded-full transition-colors"
                   >
-                    
+                    {isMuted ? (
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072M12 6a9 9 0 010 12m-4.5-9.5L12 3v18l-4.5-4.5H4a1 1 0 01-1-1v-7a1 1 0 011-1h3.5z" />
+                      </svg>
+                    )}
                   </button>
                 </div>
               </div>
@@ -173,7 +193,7 @@ const InvestorsTable = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-          {/* Investors Section */}
+          {/* Investors Section - Fixed */}
           <div 
             ref={investorSectionRef}
             className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 md:p-8 rounded-xl border border-[#FFD700]/20 shadow-lg relative overflow-hidden animate-on-scroll opacity-0"
@@ -207,7 +227,7 @@ const InvestorsTable = () => {
                     </svg>
                   ),
                   title: "Personal Compliance Manager",
-                  description: "Our expert lawyers and accountants handle all legal and government compliance, letting you focus on securing better deals while we manage your back-office."
+                  description: "Our expert lawyers and accountants handle all legal and government compliance, letting you focus on securing better deals."
                 },
                 {
                   icon: (
@@ -238,7 +258,6 @@ const InvestorsTable = () => {
                     <h4 className="text-base md:text-lg font-semibold text-white mb-1">{item.title}</h4>
                     <p className="text-gray-300 text-xs md:text-sm">{item.description}</p>
                   </div>
-                  {/* Animated indicator */}
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 md:w-3 md:h-3 bg-[#FFD700] rounded-full animate-pulse"></div>
                 </div>
               ))}
@@ -321,7 +340,6 @@ const InvestorsTable = () => {
                     <h4 className="text-base md:text-lg font-semibold text-white mb-1">{item.title}</h4>
                     <p className="text-gray-300 text-xs md:text-sm">{item.description}</p>
                   </div>
-                  {/* Animated indicator */}
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 md:w-3 md:h-3 bg-[#FFD700] rounded-full animate-pulse"></div>
                 </div>
               ))}
