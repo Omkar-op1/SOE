@@ -673,5 +673,4 @@ const IdeaCompanyCTA = () => {
     </div>
   );
 };
-
 export default IdeaCompanyCTA;

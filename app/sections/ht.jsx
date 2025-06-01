@@ -249,15 +249,19 @@ const PricingPage = () => {
         @keyframes floating {
           0% {
             transform: translateY(100vh) rotate(0deg);
+            transform: translateY(100vh) rotate(0deg);
             opacity: 0;
           }
           10% {
             opacity: 0.6;
+            opacity: 0.6;
           }
           90% {
             opacity: 0.6;
+            opacity: 0.6;
           }
           100% {
+            transform: translateY(-100px) rotate(360deg);
             transform: translateY(-100px) rotate(360deg);
             opacity: 0;
           }
