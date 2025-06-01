@@ -7,11 +7,11 @@ const IdeaCompanyCTA = () => {
   const btnRef = useRef(null);
 
   useEffect(() => {
-    // Create floating gold elements
+    // Create floating elements
     const container = floatingElementsRef.current;
     if (!container) return;
     
-    const elementCount = 30;
+    const elementCount = 18;
     container.innerHTML = "";
 
     for (let i = 0; i < elementCount; i++) {
@@ -20,8 +20,6 @@ const IdeaCompanyCTA = () => {
       element.style.left = Math.random() * 100 + "%";
       element.style.animationDelay = Math.random() * 8 + "s";
       element.style.animationDuration = (Math.random() * 4 + 8) + "s";
-      element.style.width = (Math.random() * 10 + 5) + "px";
-      element.style.height = element.style.width;
       container.appendChild(element);
     }
 
@@ -96,7 +94,7 @@ const IdeaCompanyCTA = () => {
     ripple.style.width = ripple.style.height = size + "px";
     ripple.style.left = x + "px";
     ripple.style.top = y + "px";
-    ripple.style.background = "rgba(255, 215, 0, 0.3)";
+    ripple.style.background = "rgba(255, 255, 255, 0.5)";
     ripple.style.borderRadius = "50%";
     ripple.style.transform = "scale(0)";
     ripple.style.animation = "ripple 0.6s linear";
@@ -110,7 +108,7 @@ const IdeaCompanyCTA = () => {
   };
 
   return (
-    <div className="min-h-screen font-sans overflow-hidden relative bg-gradient-to-b from-gray-900 to-[#0a0a0a]">
+    <div className="min-h-screen font-sans overflow-hidden">
       <style jsx>{`
         @keyframes textReveal {
           0% {
@@ -130,11 +128,11 @@ const IdeaCompanyCTA = () => {
         @keyframes gradientWave {
           0%, 100% { 
             background-position: 0% 50%;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+            filter: drop-shadow(0 0 10px rgba(100, 116, 139, 0.3));
           }
           50% { 
             background-position: 100% 50%;
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+            filter: drop-shadow(0 0 20px rgba(100, 116, 139, 0.6));
           }
         }
         
@@ -146,11 +144,11 @@ const IdeaCompanyCTA = () => {
         @keyframes paragraphFadeIn {
           0% {
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(50px) rotateX(30deg);
           }
           100% {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) rotateX(0deg);
           }
         }
         
@@ -209,18 +207,18 @@ const IdeaCompanyCTA = () => {
         }
         
         @keyframes videoGlow {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.3); }
-          50% { box-shadow: 0 0 30px 10px rgba(255, 215, 0, 0.5); }
+          0%, 100% { box-shadow: 0 0 0 0 rgba(100, 116, 139, 0.3); }
+          50% { box-shadow: 0 0 30px 10px rgba(100, 116, 139, 0.5); }
         }
         
         @keyframes highlightPulse {
           0%, 100% { 
-            color: #FFD700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            color: #64748B;
+            text-shadow: 0 0 10px rgba(100, 116, 139, 0.3);
           }
           50% { 
-            color: #FFA500;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            color: #94A3B8;
+            text-shadow: 0 0 20px rgba(100, 116, 139, 0.6);
           }
         }
         
@@ -264,12 +262,11 @@ const IdeaCompanyCTA = () => {
           position: relative;
           overflow: hidden;
           line-height: 1.1;
-          text-align: left;
         }
         
         h1 .question {
           display: block;
-          background: linear-gradient(45deg, #FFD700 0%, #FFA500 30%, #FFD700 60%, #FFA500 100%);
+          background: linear-gradient(45deg, #64748B 0%, #94A3B8 30%, #64748B 60%, #94A3B8 100%);
           background-size: 300% 300%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -280,19 +277,26 @@ const IdeaCompanyCTA = () => {
             textFloat 6s ease-in-out infinite;
           transform: translateY(100px);
           opacity: 0;
-          text-align: left;
         }
         
         .subtitle {
           font-size: 1.3rem;
-          color: #ddd;
+          color: #ccc;
           margin-bottom: 25px;
           line-height: 1.6;
           position: relative;
           opacity: 0;
           transform: translateY(50px);
-          transition: all 0.8s ease-out;
-          text-align: left;
+          text-align: center;
+        }
+        
+        .subtitle:nth-of-type(1) {
+          animation: paragraphFadeIn 1s ease-out 1s forwards;
+        }
+        
+        .subtitle .highlight {
+          font-weight: bold;
+          animation: highlightPulse 3s ease-in-out infinite;
         }
         
         .description {
@@ -302,20 +306,26 @@ const IdeaCompanyCTA = () => {
           margin-bottom: 20px;
           opacity: 0;
           transform: translateY(50px);
-          transition: all 0.8s ease-out;
-          text-align: left;
-          max-width: 600px;
+          text-align: center;
+        }
+        
+        .description:nth-of-type(2) {
+          animation: paragraphFadeIn 1s ease-out 1.3s forwards;
+        }
+        
+        .description:nth-of-type(3) {
+          animation: paragraphFadeIn 1s ease-out 1.6s forwards;
         }
         
         .question-emphasis {
-          color: #FFD700;
+          color: #64748B;
           font-weight: bold;
           font-size: 1.2rem;
           margin-bottom: 40px;
           opacity: 0;
           transform: translateY(50px);
-          transition: all 0.8s ease-out;
-          text-align: left;
+          animation: paragraphFadeIn 1s ease-out 1.9s forwards;
+          text-align: center;
         }
         
         .w3-padding {
@@ -323,22 +333,22 @@ const IdeaCompanyCTA = () => {
           opacity: 0;
           animation: buttonReveal 1.2s ease-out 2.2s forwards;
           display: flex;
-          justify-content: flex-start;
+          justify-content: center;
         }
         
         .button-group {
           display: flex;
           gap: 20px;
           flex-wrap: wrap;
-          justify-content: flex-start;
+          justify-content: center;
         }
         
         .cta-btn {
           display: inline-block;
           padding: 18px 45px;
-          background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
+          background: linear-gradient(45deg, #64748B, #94A3B8, #64748B);
           background-size: 200% 200%;
-          color: #333;
+          color: #fff;
           text-decoration: none;
           font-weight: bold;
           font-size: 1.1rem;
@@ -347,7 +357,7 @@ const IdeaCompanyCTA = () => {
           overflow: hidden;
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           box-shadow: 
-            0 8px 25px rgba(255, 215, 0, 0.3),
+            0 8px 25px rgba(100, 116, 139, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
           text-transform: uppercase;
           letter-spacing: 1px;
@@ -369,7 +379,7 @@ const IdeaCompanyCTA = () => {
         .cta-btn:hover {
           transform: translateY(-8px) scale(1.05);
           box-shadow: 
-            0 15px 40px rgba(255, 215, 0, 0.5),
+            0 15px 40px rgba(100, 116, 139, 0.5),
             inset 0 1px 0 rgba(255, 255, 255, 0.3);
           background-position: 100% 0;
         }
@@ -382,8 +392,8 @@ const IdeaCompanyCTA = () => {
           display: inline-block;
           padding: 18px 45px;
           background: transparent;
-          color: #FFD700;
-          border: 2px solid #FFD700;
+          color: #64748B;
+          border: 2px solid #64748B;
           text-decoration: none;
           font-weight: bold;
           font-size: 1.1rem;
@@ -403,14 +413,14 @@ const IdeaCompanyCTA = () => {
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+          background: linear-gradient(90deg, transparent, rgba(100, 116, 139, 0.1), transparent);
           transition: left 0.6s ease;
         }
         
         .secondary-btn:hover {
           transform: translateY(-8px) scale(1.05);
-          background: rgba(255, 215, 0, 0.1);
-          box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+          background: rgba(100, 116, 139, 0.1);
+          box-shadow: 0 15px 40px rgba(100, 116, 139, 0.2);
         }
         
         .secondary-btn:hover::before {
@@ -432,7 +442,7 @@ const IdeaCompanyCTA = () => {
           overflow: hidden;
           box-shadow: 
             0 20px 40px rgba(0, 0, 0, 0.3),
-            0 0 0 1px rgba(255, 215, 0, 0.1);
+            0 0 0 1px rgba(100, 116, 139, 0.1);
           transform-style: preserve-3d;
           transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -441,8 +451,8 @@ const IdeaCompanyCTA = () => {
           transform: scale(1.03) rotateY(5deg) rotateX(2deg);
           box-shadow: 
             0 30px 60px rgba(0, 0, 0, 0.4),
-            0 0 0 1px rgba(255, 215, 0, 0.3),
-            0 0 50px rgba(255, 215, 0, 0.1);
+            0 0 0 1px rgba(100, 116, 139, 0.3),
+            0 0 50px rgba(100, 116, 139, 0.1);
           animation: videoGlow 2s infinite;
         }
         
@@ -476,7 +486,7 @@ const IdeaCompanyCTA = () => {
         .play-icon {
           width: 80px;
           height: 80px;
-          background: rgba(255, 215, 0, 0.7);
+          background: rgba(100, 116, 139, 0.7);
           border-radius: 50%;
           display: flex;
           align-items: center;
@@ -511,19 +521,22 @@ const IdeaCompanyCTA = () => {
         
         .floating-element {
           position: absolute;
-          background: #FFD700;
+          width: 6px;
+          height: 6px;
+          background: #64748B;
           border-radius: 50%;
           opacity: 0.6;
           animation: floatUp 8s linear infinite;
-          filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
         }
         
         .floating-element:nth-child(odd) {
-          background: #FFA500;
+          background: #94A3B8;
           animation-duration: 10s;
         }
         
         .floating-element:nth-child(2n) {
+          width: 4px;
+          height: 4px;
           animation-duration: 12s;
         }
         
@@ -536,43 +549,6 @@ const IdeaCompanyCTA = () => {
         .animate-on-scroll.animated {
           opacity: 1;
           transform: translateY(0);
-        }
-        
-        .gold-radial-glow {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-        }
-        
-        .glow-1 {
-          position: absolute;
-          top: 20%;
-          left: 20%;
-          width: 400px;
-          height: 400px;
-          background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
-          border-radius: 50%;
-          filter: blur(100px);
-        }
-        
-        .glow-2 {
-          position: absolute;
-          bottom: 30%;
-          right: 20%;
-          width: 300px;
-          height: 300px;
-          background: radial-gradient(circle, rgba(255,165,0,0.08) 0%, transparent 70%);
-          border-radius: 50%;
-          filter: blur(80px);
-        }
-        
-        .highlight {
-          color: #FFD700;
-          font-weight: 600;
-          animation: highlightPulse 3s ease-in-out infinite;
         }
         
         @media (max-width: 993px) {
@@ -592,11 +568,6 @@ const IdeaCompanyCTA = () => {
           
           h1 {
             font-size: 2.5rem;
-            text-align: center;
-          }
-          
-          h1 .question {
-            text-align: center;
           }
           
           .video-container {
@@ -605,17 +576,6 @@ const IdeaCompanyCTA = () => {
           }
           
           .button-group {
-            justify-content: center;
-          }
-          
-          .subtitle, 
-          .description, 
-          .question-emphasis {
-            text-align: center;
-            max-width: 100%;
-          }
-          
-          .w3-padding {
             justify-content: center;
           }
         }
@@ -644,53 +604,31 @@ const IdeaCompanyCTA = () => {
             width: 100%;
             max-width: 500px;
           }
-          
-          .subtitle {
-            font-size: 1.1rem;
-          }
         }
       `}</style>
 
-      {/* Gold radial glows */}
-      <div className="gold-radial-glow">
-        <div className="glow-1"></div>
-        <div className="glow-2"></div>
-      </div>
-      
       <section className="cta-section">
         <div className="floating-elements" ref={floatingElementsRef}></div>
         <div className="w3-container">
           <div className="w3-row">
             <div className="w3-col m6 desktop-padding">
               <h1 className="animate-on-scroll">
-                <span 
-                  className="question"
-                >
-                  Why can't you?
-                </span>
+                <span className="question">Why can't you?</span>
               </h1>
               
-              <p 
-                className="subtitle animate-on-scroll"
-              >
+              <p className="subtitle animate-on-scroll">
                 In this era of entrepreneurship, <span className="highlight">how can you afford being left behind?</span>
               </p>
               
-              <p 
-                className="description animate-on-scroll"
-              >
+              <p className="description animate-on-scroll">
                 Anyone can become an entrepreneur, why can't you?
               </p>
               
-              <p 
-                className="description animate-on-scroll"
-              >
+              <p className="description animate-on-scroll">
                 Owning a successful venture has never been easier. The market is ready, The investors are ready, The consumers are ready.
               </p>
               
-              <p 
-                className="question-emphasis animate-on-scroll"
-              >
+              <p className="question-emphasis animate-on-scroll">
                 Are you ready?
               </p>
               
