@@ -21,10 +21,11 @@ export default function Page() {
       
       {/* <Investertable/>
       <Thinkers/> */}
-      {/* <Testimonials/> */}
+      
       <Test/>
       <Process/>
       <Brand/>
+      <Testimonials/>
       <Faq/>
       <ThinkersClubChatbot/>
     </div>

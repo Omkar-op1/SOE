@@ -53,46 +53,151 @@ const BrandsTestimonials = () => {
         </div>
       </div>
 
-      {/* Testimonials Section */}
-      <section className="testimonials-section">
-        <div className="container">
-          <h2 className="section-title animate-on-scroll">Customer Reviews</h2>
-          <p className="section-description animate-on-scroll">
-            You've been told that a traditional degree is the benchmark of
-            success. Our students understand what's really possible.
-          </p>
-          
-          <div className="testimonials-grid">
-            {[
-              {
-                name: "Samyak Khobragade",
-                quote: "My experience at the thinkers club has been amazing. The ideas shared were relevant, practical and often unprecedented. People, especially those building a start up or wanting to do so should join SOT not only for help with ideation, networking and funding but also simply to find access to reports and ideas that can help any business in unimaginable ways."
-              },
-              {
-                name: "Saksham Bambal",
-                quote: "SOT helped me land my first internship, and the experience I gained has been invaluable for my career. A fantastic opportunity!"
-              },
-              {
-                name: "Tanish Mittal",
-                quote: "SOT provided great support in helping us shape our vision. Their advice was insightful, and the podcast we did together gave us valuable exposure. Overall, a positive experience, though a bit more hands-on guidance could have made it perfect."
-              }
-            ].map((testimonial, index) => (
-              <div 
-                key={index} 
-                className="testimonial-card animate-on-scroll"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <p><strong>{testimonial.name}</strong></p>
-                <p>"{testimonial.quote}"</p>
-              </div>
-            ))}
+  
+
+{/* Testimonials Section
+<section className="testimonials-section">
+  <div className="container">
+    <h2 className="section-title animate-on-scroll">Customer Reviews</h2>
+    <p className="section-description animate-on-scroll">
+      Hear from entrepreneurs and innovators who've transformed their visions 
+      through our ecosystem of support and expertise.
+    </p>
+    
+    <div className="testimonials-grid">
+      {[
+        {
+          name: "Arpan Moon",
+          quote: "I landed an amazing internship through TIC's platform. The process was smooth, and the experience has been incredibly valuable for my career. 5 stars for the team!",
+          rating: 5
+        },
+        {
+          name: "Rudraksh Raut",
+          quote: "Thinkers Club helped transform R17 into a global brand. Their expert guidance and networking made all the difference. Highly recommend for any entrepreneur – 5 stars!",
+          rating: 5
+        },
+        {
+          name: "Tanish Mittal",
+          quote: "TIC provided great support in helping us shape our vision. Their advice was insightful, and the podcast we did together gave us valuable exposure.",
+          rating: 4
+        },
+        {
+          name: "Samyak Khobragade",
+          quote: "My experience at the thinkers club has been amazing. The ideas shared were relevant, practical and often unprecedented. People building startups should definitely join TIC.",
+          rating: 5
+        },
+        {
+          name: "Himanshu Sonwani",
+          quote: "TIC provided valuable guidance on shaping my business idea for LaundryFi. Their expert advice helped me refine my business model, and I'm confident they'll help secure investors.",
+          rating: 5
+        }
+      ].map((testimonial, index) => (
+        <div 
+          key={index} 
+          className="testimonial-card animate-on-scroll"
+          style={{ animationDelay: `${index * 0.2}s` }}
+        >
+          <div className="testimonial-header">
+            <div className="rating-stars">
+              {[...Array(5)].map((_, i) => (
+                <span 
+                  key={i} 
+                  className={i < testimonial.rating ? "star filled" : "star"}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+            <div className="quote-icon">“</div>
           </div>
-          
-          <div className="button-container animate-on-scroll">
-            <a href="#join" className="cta-button">Join Now</a>
-          </div>
+          <p className="testimonial-text">"{testimonial.quote}"</p>
+          <p className="testimonial-author"><strong>{testimonial.name}</strong></p>
         </div>
-      </section>
+      ))}
+    </div>
+    
+    <div className="button-container animate-on-scroll">
+      <a href="#join" className="cta-button">Join Our Community</a>
+    </div>
+  </div>
+</section> */}
+
+<style jsx>{`
+  /* ... (previous styles remain the same) */
+  
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+  }
+  
+  .testimonial-card {
+    background: rgba(25, 25, 25, 0.7);
+    border-radius: 15px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+  }
+  
+  .testimonial-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .rating-stars {
+    display: flex;
+    gap: 3px;
+  }
+  
+  .star {
+    color: #555;
+    font-size: 1.2rem;
+  }
+  
+  .star.filled {
+    color: #FFD700;
+  }
+  
+  .quote-icon {
+    font-size: 4rem;
+    font-family: Georgia, serif;
+    color: rgba(255, 215, 0, 0.15);
+    line-height: 0.8;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 1;
+  }
+  
+  .testimonial-text {
+    position: relative;
+    z-index: 2;
+    color: #e0e0e0;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+  
+  .testimonial-author {
+    position: relative;
+    z-index: 2;
+    color: #FFD700;
+    font-size: 1.1rem;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 215, 0, 0.1);
+  }
+  
+  /* ... (remaining styles remain the same) */
+`}</style>
 
       <style jsx global>{`
         @keyframes floatUp {
