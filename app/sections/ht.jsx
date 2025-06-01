@@ -1,145 +1,199 @@
-'use client'
-import React from 'react';
+"use client"
+import { useEffect, useState } from "react"
+import Image from "next/image"
 
-const DecisionVisual = () => {
+const PriceComparison = () => {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+          }
+        })
+      },
+      { threshold: 0.3 },
+    )
+
+    const section = document.querySelector(".price-comparison-section")
+    if (section) {
+      observer.observe(section)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <div className="relative bg-gradient-to-b from-gray-900 to-[#0a0a0a] py-20 px-4 overflow-hidden">
-      {/* Gold floating particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(30)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute rounded-full bg-[#FFD700]/30"
-            style={{
-              width: `${Math.random() * 10 + 5}px`,
-              height: `${Math.random() * 10 + 5}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animation: `floatUp ${Math.random() * 15 + 10}s linear infinite`,
-              animationDelay: `${Math.random() * 5}s`
-            }}
-          />
-        ))}
+    <section className="price-comparison-section bg-gradient-to-b from-slate-900 via-purple-950 to-slate-900 py-16 relative overflow-hidden">
+      {/* Subtle Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-r from-amber-400 to-yellow-600 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-48 h-48 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <h2 className="text-3xl md:text-5xl font-bold text-center mb-16">
-          <span className="bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-clip-text text-transparent">
-            DON'T LET YOUR DREAMS FAIL
-          </span>
-        </h2>
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Elegant Header */}
+        <div
+          className={`text-center mb-12 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-8"}`}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent tracking-wide">
+            Traditional vs Smart Learning
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-amber-400 to-yellow-600 mx-auto rounded-full"></div>
+        </div>
 
-        {/* Comparison section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-20">
-          {/* Traditional path */}
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-[#FF6B6B]/30 rounded-xl p-6 md:p-8 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#FF0000]/10 to-transparent pointer-events-none"></div>
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-[#FF6B6B]">Traditional Route</h3>
-                <div className="text-3xl">💸</div>
-              </div>
-              <div className="text-4xl font-bold text-white mb-4">₹10,00,000+</div>
-              <ul className="space-y-3 text-gray-300 mb-6">
-                <li className="flex items-start">
-                  <span className="text-[#FF6B6B] mr-2">✗</span>
-                  <span>Trial and error with 100+ attempts</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#FF6B6B] mr-2">✗</span>
-                  <span>Wasted time and resources</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#FF6B6B] mr-2">✗</span>
-                  <span>High risk of failure</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#FF6B6B] mr-2">✗</span>
-                  <span>No expert guidance</span>
-                </li>
-              </ul>
-              <div className="text-[#FF6B6B] font-medium">90% of startups fail this way</div>
-            </div>
-          </div>
+        {/* Sophisticated Image Section */}
+        <div
+          className={`mb-16 -mx-4 md:-mx-8 lg:-mx-16 transition-all duration-1200 ${isVisible ? "opacity-100 scale-100" : "opacity-0 scale-98"}`}
+        >
+          <div className="relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-800/20 via-indigo-800/20 to-purple-800/20 rounded-2xl blur-xl opacity-60 group-hover:opacity-80 transition-opacity duration-700"></div>
+            <div className="relative border border-amber-500/20 rounded-2xl overflow-hidden">
+              <Image
+                src="/images/brand5.png"
+                alt="Payment Journey Visualization"
+                width={2400}
+                height={1200}
+                className="w-full h-auto transform group-hover:scale-102 transition-transform duration-1000"
+                priority
+                quality={100}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-purple-950/30"></div>
 
-          {/* School of Thinkers path */}
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 border border-[#FFD700]/30 rounded-xl p-6 md:p-8 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#FFD700]/10 to-transparent pointer-events-none"></div>
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-[#FFD700]">School of Thinkers</h3>
-                <div className="text-3xl">🚀</div>
+              {/* Elegant VS Badge */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-900 px-6 py-3 rounded-lg font-bold text-xl shadow-2xl border border-amber-400/50 hover:shadow-amber-500/25 transition-all duration-500">
+                VS
               </div>
-              <div className="text-4xl font-bold text-white mb-4">Just ₹199</div>
-              <ul className="space-y-3 text-gray-300 mb-6">
-                <li className="flex items-start">
-                  <span className="text-[#FFD700] mr-2">✓</span>
-                  <span>Proven success ecosystem</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#FFD700] mr-2">✓</span>
-                  <span>Curated resources for first-time success</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#FFD700] mr-2">✓</span>
-                  <span>Expert guidance at every step</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[#FFD700] mr-2">✓</span>
-                  <span>99.9% success rate</span>
-                </li>
-              </ul>
-              <div className="text-[#FFD700] font-medium">Join the 10% who succeed</div>
             </div>
           </div>
         </div>
 
-        {/* Call to action */}
-        <div className="text-center">
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            While most aspiring entrepreneurs struggle and many startups fail early on, 
-            world innovators and successful leaders keep growing richer. Don't miss 
-            your chance to join the winners.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
-            <button className="px-8 py-4 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-gray-900 font-bold rounded-lg hover:shadow-lg hover:shadow-[#FFD700]/30 transition-all duration-300 transform hover:-translate-y-1">
-              Join Now for ₹199
-            </button>
-            <button className="px-8 py-4 border border-[#FFD700] text-[#FFD700] font-medium rounded-lg hover:bg-[#FFD700]/10 transition-colors duration-300">
-              Learn More
-            </button>
+        <div className="max-w-6xl mx-auto">
+          {/* Refined Comparison Grid */}
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            {/* Traditional Education - Peaceful Orange/Brown */}
+            <div
+              className={`bg-gradient-to-br from-orange-900 via-amber-900 to-orange-900 rounded-2xl p-8 text-center shadow-2xl border border-orange-700/30 hover:border-orange-600/50 transition-all duration-700 hover:shadow-orange-900/25 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}
+            >
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <span className="text-4xl">😰</span>
+                <div>
+                  <h3 className="text-2xl font-bold text-white tracking-wide">Traditional</h3>
+                  <div className="text-3xl font-bold text-amber-400">₹10L+</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 text-white">
+                <div className="bg-orange-800/40 rounded-xl p-4 hover:bg-orange-700/40 transition-colors duration-500 border border-orange-700/20">
+                  <div className="text-2xl mb-2">⏰</div>
+                  <div className="font-semibold text-sm">4-6 Years</div>
+                </div>
+                <div className="bg-orange-800/40 rounded-xl p-4 hover:bg-orange-700/40 transition-colors duration-500 border border-orange-700/20">
+                  <div className="text-2xl mb-2">📚</div>
+                  <div className="font-semibold text-sm">Outdated</div>
+                </div>
+                <div className="bg-orange-800/40 rounded-xl p-4 hover:bg-orange-700/40 transition-colors duration-500 border border-orange-700/20">
+                  <div className="text-2xl mb-2">❌</div>
+                  <div className="font-semibold text-sm">No Guarantee</div>
+                </div>
+                <div className="bg-orange-800/40 rounded-xl p-4 hover:bg-orange-700/40 transition-colors duration-500 border border-orange-700/20">
+                  <div className="text-2xl mb-2">💔</div>
+                  <div className="font-semibold text-sm">Heavy Debt</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Smart Learning - Peaceful Teal/Sage */}
+            <div
+              className={`bg-gradient-to-br from-teal-900 via-emerald-900 to-teal-900 rounded-2xl p-8 text-center shadow-2xl border border-teal-700/30 hover:border-teal-600/50 transition-all duration-700 hover:shadow-teal-900/25 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}
+            >
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <span className="text-4xl">😊</span>
+                <div>
+                  <h3 className="text-2xl font-bold text-white tracking-wide">Smart Learning</h3>
+                  <div className="text-3xl font-bold text-amber-400">₹199</div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 text-white">
+                <div className="bg-teal-800/40 rounded-xl p-4 hover:bg-teal-700/40 transition-colors duration-500 border border-teal-700/20">
+                  <div className="text-2xl mb-2">⚡</div>
+                  <div className="font-semibold text-sm">2-3 Months</div>
+                </div>
+                <div className="bg-teal-800/40 rounded-xl p-4 hover:bg-teal-700/40 transition-colors duration-500 border border-teal-700/20">
+                  <div className="text-2xl mb-2">🔥</div>
+                  <div className="font-semibold text-sm">Latest Tech</div>
+                </div>
+                <div className="bg-teal-800/40 rounded-xl p-4 hover:bg-teal-700/40 transition-colors duration-500 border border-teal-700/20">
+                  <div className="text-2xl mb-2">✅</div>
+                  <div className="font-semibold text-sm">95% Success</div>
+                </div>
+                <div className="bg-teal-800/40 rounded-xl p-4 hover:bg-teal-700/40 transition-colors duration-500 border border-teal-700/20">
+                  <div className="text-2xl mb-2">💰</div>
+                  <div className="font-semibold text-sm">Affordable</div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="relative inline-block">
-            <div className="absolute -inset-1 bg-gradient-to-r from-[#FFD700] to-[#FFA500] rounded-lg blur opacity-75"></div>
-            <div className="relative px-6 py-3 bg-gray-900 text-white text-sm font-semibold rounded-lg">
-              Limited spots available - Join today!
+          {/* Elegant CTA */}
+          <div
+            className={`text-center mt-12 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          >
+            <div className="bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 rounded-2xl p-8 max-w-3xl mx-auto shadow-2xl border border-amber-400/30 hover:shadow-amber-500/20 transition-all duration-700">
+              <h4 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 tracking-wide">Save ₹9,99,801!</h4>
+              <p className="text-slate-800 mb-6 font-semibold text-lg">Get BETTER results at 0.002% cost</p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <button className="bg-gradient-to-r from-slate-900 to-purple-900 text-amber-400 px-10 py-4 rounded-xl font-bold text-xl hover:from-slate-800 hover:to-purple-800 transition-all duration-500 transform hover:scale-105 shadow-xl border border-slate-700">
+                  Start for ₹199 🚀
+                </button>
+                <div className="text-slate-800 font-bold">✅ 30-Day Guarantee • ✅ Lifetime Access</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sophisticated Stats */}
+          <div
+            className={`grid grid-cols-3 gap-6 mt-10 max-w-3xl mx-auto transition-all duration-1000 delay-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          >
+            <div className="text-center bg-gradient-to-br from-slate-800/60 to-purple-900/60 rounded-xl p-6 backdrop-blur-sm border border-purple-700/20 hover:border-purple-600/40 transition-all duration-500">
+              <div className="text-3xl font-bold text-amber-400 mb-2">50K+</div>
+              <div className="text-gray-300 text-sm font-medium">Students</div>
+            </div>
+            <div className="text-center bg-gradient-to-br from-slate-800/60 to-purple-900/60 rounded-xl p-6 backdrop-blur-sm border border-purple-700/20 hover:border-purple-600/40 transition-all duration-500">
+              <div className="text-3xl font-bold text-amber-400 mb-2">95%</div>
+              <div className="text-gray-300 text-sm font-medium">Success Rate</div>
+            </div>
+            <div className="text-center bg-gradient-to-br from-slate-800/60 to-purple-900/60 rounded-xl p-6 backdrop-blur-sm border border-purple-700/20 hover:border-purple-600/40 transition-all duration-500">
+              <div className="text-3xl font-bold text-amber-400 mb-2">300%</div>
+              <div className="text-gray-300 text-sm font-medium">Salary Boost</div>
             </div>
           </div>
         </div>
       </div>
 
       <style jsx global>{`
-        @keyframes floatUp {
-          0% {
-            transform: translateY(100vh) rotate(0deg);
-            opacity: 0;
+        .scale-102 {
+          transform: scale(1.02);
+        }
+
+        @media (max-width: 1024px) {
+          .grid.lg\\:grid-cols-2 {
+            grid-template-columns: 1fr;
+            gap: 2rem;
           }
-          10% {
-            opacity: 0.6;
-          }
-          90% {
-            opacity: 0.6;
-          }
-          100% {
-            transform: translateY(-100px) rotate(360deg);
-            opacity: 0;
+        }
+
+        @media (max-width: 768px) {
+          .price-comparison-section h2 {
+            font-size: 2.5rem;
           }
         }
       `}</style>
-    </div>
-  );
-};
+    </section>
+  )
+}
 
-export default DecisionVisual;
+export default PriceComparison
