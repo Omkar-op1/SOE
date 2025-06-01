@@ -159,7 +159,7 @@ const ProductsCarousel = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] font-sans overflow-hidden">
+    <div className="bg-[#0a0a0a] font-sans">
       <style jsx>{`
         @keyframes backgroundFlow {
           0% { 
@@ -318,9 +318,11 @@ const ProductsCarousel = () => {
         .carousel-container {
           position: relative;
           width: 100%;
-          min-height: 80vh; /* Reduced from 100vh to decrease top/bottom space */
+          height: 100vh;
           background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 30%, #1a1a1a 70%, #0a0a0a 100%);
           overflow: hidden;
+          display: flex;
+          flex-direction: column;
         }
         
         .carousel-container::before {
@@ -388,8 +390,10 @@ const ProductsCarousel = () => {
         .carousel-slides {
           position: relative;
           width: 100%;
-          height: 80vh; /* Adjusted to match reduced container height */
+          flex: 1;
           z-index: 2;
+          display: flex;
+          align-items: center;
         }
         
         .slide {
@@ -592,9 +596,9 @@ const ProductsCarousel = () => {
         
         .video-container {
           position: relative;
-          width: 120%; /* Increased video size */
-          max-width: 800px; /* Set a max-width to prevent overflow */
-          margin: 0 auto; /* Center the video */
+          width: 120%;
+          max-width: 800px;
+          margin: 0 auto;
           border-radius: 20px;
           overflow: hidden;
           box-shadow: 
@@ -649,7 +653,7 @@ const ProductsCarousel = () => {
         
         .carousel-dots {
           position: absolute;
-          bottom: 20px; /* Adjusted to reduce bottom space */
+          bottom: 40px;
           left: 50%;
           transform: translateX(-50%);
           display: flex;
@@ -694,8 +698,8 @@ const ProductsCarousel = () => {
           }
           
           .video-container {
-            width: 100%; /* Adjusted for responsiveness */
-            max-width: 600px; /* Slightly smaller max-width for medium screens */
+            width: 100%;
+            max-width: 600px;
             margin: 0 auto;
           }
         }
@@ -705,27 +709,27 @@ const ProductsCarousel = () => {
             font-size: 2.5rem;
           }
           
-          .carousel-container {
-            min-height: 90vh; /* Slightly taller for smaller screens to avoid cramped layout */
-          }
-          
           .slide-content {
             padding: 0 15px;
           }
           
           .video-container {
             width: 100%;
-            max-width: 500px; /* Adjusted for smaller screens */
+            max-width: 500px;
+          }
+          
+          .carousel-dots {
+            bottom: 20px;
           }
         }
       `}</style>
 
       <div className="carousel-container">
         <div className="absolute inset-0 z-[1] pointer-events-none">
-          <div className="absolute top-0 left-0 right-0 h-[50px] bg-gradient-to-b from-[#050815] via-[rgba(5,8,21,0.7)] to-transparent z-[1]"></div>
-          <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-t from-[#050815] via-[rgba(5,8,21,0.9)] to-transparent z-[1]"></div>
+          <div className="absolute top-0 left-0 right-0 h-[60px] bg-gradient-to-b from-[#050815] via-[rgba(5,8,21,0.8)] to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-[60px] bg-gradient-to-t from-[#050815] via-[rgba(5,8,21,0.8)] to-transparent"></div>
         </div>
-
+        
         <div className="floating-elements" ref={floatingElementsRef}></div>
 
         <div className="carousel-slides">
