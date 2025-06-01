@@ -16,12 +16,11 @@ export default function Page() {
   return (
     <div>
       <Hero />
-     <Main/>
-      
-       <Carousel/>
-       <Process/>
-      <Investertable/>
-      <Thinkers/>
+      <Main/>
+      <Carousel/>
+      <Process/>
+      {/* <Investertable/>
+      <Thinkers/> */}
       {/* <Testimonials/> */}
       <Test/>
       <Brand/>
