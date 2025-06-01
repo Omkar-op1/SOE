@@ -52,7 +52,7 @@ const PriceComparison = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-purple-800/20 via-indigo-800/20 to-purple-800/20 rounded-2xl blur-xl opacity-60 group-hover:opacity-80 transition-opacity duration-700"></div>
             <div className="relative border border-amber-500/20 rounded-2xl overflow-hidden">
               <Image
-                src="/images/brand5.png"
+                src="/images/PAy.jpg"
                 alt="Payment Journey Visualization"
                 width={2400}
                 height={1200}
@@ -175,20 +175,20 @@ const PriceComparison = () => {
       </div>
 
       <style jsx global>{`
-        .scale-102 {
-          transform: scale(1.02);
-        }
-
-        @media (max-width: 1024px) {
-          .grid.lg\\:grid-cols-2 {
-            grid-template-columns: 1fr;
-            gap: 2rem;
+        @keyframes float {
+          0% {
+            transform: translateY(0) translateX(0);
+            opacity: 0;
           }
-        }
-
-        @media (max-width: 768px) {
-          .price-comparison-section h2 {
-            font-size: 2.5rem;
+          10% {
+            opacity: 0.3;
+          }
+          90% {
+            opacity: 0.3;
+          }
+          100% {
+            transform: translateY(-100vh) translateX(20px);
+            opacity: 0;
           }
         }
       `}</style>
