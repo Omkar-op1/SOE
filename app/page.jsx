@@ -18,11 +18,12 @@ export default function Page() {
       <Hero />
       <Main/>
       <Carousel/>
-      <Process/>
+      
       {/* <Investertable/>
       <Thinkers/> */}
       
       <Test/>
+      <Process/>
       <Brand/>
       <Testimonials/>
       <Faq/>
