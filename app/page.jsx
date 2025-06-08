@@ -10,6 +10,7 @@ import Brand from "./sections/brand";
 import Test from "./sections/ht";
 import Main from "./sections/main";
 import Faq from "./sections/faq";
+// import DecisionSection from "./sections/DecisionSection";
 
 
 export default function Page() {
@@ -25,7 +26,7 @@ export default function Page() {
       <Test/>
       <Process/>
       <Brand/>
-     <DecisionSection />
+     {/* <DecisionSection /> */}
       <Testimonials/>
       <Faq/>
       <ThinkersClubChatbot/>
