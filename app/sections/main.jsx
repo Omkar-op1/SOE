@@ -651,18 +651,19 @@ const IdeaCompanyCTA = () => {
               </div>
             </div>
             <div className="w3-col m6 animate-on-scroll video-container">
-              <video 
-                ref={videoRef}
-                autoPlay
-                umuted
-                loop
-                playsInline
-                poster="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                className="video-element"
-              >
-                <source src="Main.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              <video
+  ref={videoRef}
+  autoPlay
+  muted
+  loop
+  playsInline
+  poster="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  className="video-element"
+>
+  <source src="Main.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
               <div className="video-overlay">
                 <div className="play-icon"></div>
               </div>
