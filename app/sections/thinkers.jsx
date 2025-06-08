@@ -1,10 +1,49 @@
 'use client'
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-const ThinkersClubSection = () => {
+const FeaturesCarousel = () => {
   const floatingElementsRef = useRef(null);
-  const btnRef = useRef(null);
-  const videoRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const timeoutRef = useRef(null);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const videoRefs = useRef([]);
+
+  const features = [
+    {
+      title: "Thinkers Club",
+      subtitle: "IDEA GENERATING GROUP",
+      description: [
+        "A heaven for aspiring entrepreneurs with daily business ideas",
+        "Detailed execution plans provided by our team of analysts",
+        "Collaborative environment to refine and develop concepts",
+        "Access to exclusive brainstorming sessions and workshops"
+      ],
+      video: "/videos/thinkersclub.mp4"
+    },
+    {
+      title: "Investors Table",
+      subtitle: "DIRECT INVESTOR ACCESS",
+      description: [
+        "Get Direct Access to Investors in your specific sector",
+        "Schedule meetings through our inbuilt chat system",
+        "Complete legal and documentation services",
+        "Verified investor network with transparent terms"
+      ],
+      video: "/videos/investor.mp4"
+    },
+    {
+      title: "Idea Community",
+      subtitle: "TALENT ACQUISITION",
+      description: [
+        "Hire from a plethora of Working Professionals",
+        "Get access to professionals who are Willing to work in Startups",
+        "Hand-Pick and Create your Dream Team"
+      ],
+      video: "/videos/idea-community.mp4"
+    }
+  ];
 
   useEffect(() => {
     // Create floating elements
@@ -12,7 +51,7 @@ const ThinkersClubSection = () => {
     if (!container) return;
     
     const elementCount = 15;
-    container.innerHTML = ""; // Clear existing elements
+    container.innerHTML = "";
 
     for (let i = 0; i < elementCount; i++) {
       const element = document.createElement("div");
@@ -24,104 +63,75 @@ const ThinkersClubSection = () => {
     }
 
     // Scroll-triggered animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -100px 0px"
-    };
-
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add("animated");
-          
           // Play video when it enters viewport
-          if (entry.target.classList.contains("video-container") && videoRef.current) {
-            videoRef.current.play();
-          }
-        } else {
-          // Pause video when it leaves viewport
-          if (entry.target.classList.contains("video-container") && videoRef.current) {
-            videoRef.current.pause();
+          const index = Array.from(document.querySelectorAll('.video-container')).indexOf(entry.target);
+          if (index >= 0 && videoRefs.current[index]) {
+            videoRefs.current[index].play().catch(e => console.log("Video play error:", e));
           }
         }
       });
-    }, observerOptions);
+    }, { threshold: 0.1, rootMargin: "0px 0px -100px 0px" });
 
     const elementsToAnimate = document.querySelectorAll(".animate-on-scroll");
     elementsToAnimate.forEach(element => observer.observe(element));
 
-    // Mouse parallax effect
-    let mouseX = 0;
-    let mouseY = 0;
-
-    const handleMouseMove = (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    // Auto-rotate features (3 seconds)
+    const startRotation = () => {
+      if (!isHovering) {
+        timeoutRef.current = setTimeout(() => {
+          goToNext();
+          startRotation();
+        }, 3000);
+      }
     };
-    
-    window.addEventListener("mousemove", handleMouseMove);
 
-    function animateParallax() {
-      const floatingElements = document.querySelectorAll(".floating-element");
-      
-      floatingElements.forEach((element, index) => {
-        const speed = (index % 3 + 1) * 0.3;
-        const x = mouseX * speed * 10;
-        const y = mouseY * speed * 10;
-        
-        element.style.transform = `translate(${x}px, ${y}px)`;
-      });
+    startRotation();
 
-      requestAnimationFrame(animateParallax);
-    }
-
-    animateParallax();
-
-    // Cleanup
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
       observer.disconnect();
+      clearTimeout(timeoutRef.current);
     };
-  }, []);
+  }, [isHovering]);
 
-  // Ripple effect for button
-  const handleButtonClick = (e) => {
-    const btn = btnRef.current;
-    const ripple = document.createElement("span");
-    const rect = btn.getBoundingClientRect();
-    const size = Math.max(rect.height, rect.width);
-    const x = e.clientX - rect.left - size / 2;
-    const y = e.clientY - rect.top - size / 2;
-    
-    ripple.style.position = "absolute";
-    ripple.style.width = ripple.style.height = size + "px";
-    ripple.style.left = x + "px";
-    ripple.style.top = y + "px";
-    ripple.style.background = "rgba(255, 255, 255, 0.5)";
-    ripple.style.borderRadius = "50%";
-    ripple.style.transform = "scale(0)";
-    ripple.style.animation = "ripple 0.6s linear";
-    ripple.style.pointerEvents = "none";
-    
-    btn.appendChild(ripple);
-    
-    setTimeout(() => {
-      ripple.remove();
-    }, 600);
+  const goToNext = () => {
+    setActiveIndex((prev) => (prev + 1) % features.length);
+  };
+
+  const goToPrev = () => {
+    setActiveIndex((prev) => (prev - 1 + features.length) % features.length);
+  };
+
+  const goToIndex = (index) => {
+    setActiveIndex(index);
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => goToNext(), 3000);
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current - touchEndX.current > 50) goToNext();
+    else if (touchEndX.current - touchStartX.current > 50) goToPrev();
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => goToNext(), 3000);
   };
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] font-sans overflow-x-hidden">
       <style jsx>{`
         @keyframes backgroundFlow {
-          0% { 
-            transform: rotate(0deg) scale(1);
-            opacity: 0.5;
-          }
-          100% { 
-            transform: rotate(2deg) scale(1.05);
-            opacity: 0.8;
-          }
+          0% { transform: rotate(0deg) scale(1); opacity: 0.5; }
+          100% { transform: rotate(2deg) scale(1.05); opacity: 0.8; }
         }
         
         @keyframes patternShift {
@@ -130,49 +140,20 @@ const ThinkersClubSection = () => {
         }
         
         @keyframes textReveal {
-          0% {
-            transform: translateY(100px) rotateX(-90deg);
-            opacity: 0;
-          }
-          50% {
-            transform: translateY(20px) rotateX(-20deg);
-            opacity: 0.7;
-          }
-          100% {
-            transform: translateY(0) rotateX(0deg);
-            opacity: 1;
-          }
+          0% { transform: translateY(100px) rotateX(-90deg); opacity: 0; }
+          50% { transform: translateY(20px) rotateX(-20deg); opacity: 0.7; }
+          100% { transform: translateY(0) rotateX(0deg); opacity: 1; }
         }
         
         @keyframes gradientWave {
-          0%, 100% { 
-            background-position: 0% 50%;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
-          }
-          50% { 
-            background-position: 100% 50%;
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
-          }
-        }
-        
-        @keyframes textFloat {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-5px); }
+          0%, 100% { background-position: 0% 50%; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3)); }
+          50% { background-position: 100% 50%; filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); }
         }
         
         @keyframes slideInWithGlow {
-          0% {
-            opacity: 0;
-            transform: translateX(-100px);
-          }
-          70% {
-            opacity: 0.8;
-            transform: translateX(10px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
+          0% { opacity: 0; transform: translateX(-100px); }
+          70% { opacity: 0.8; transform: translateX(10px); }
+          100% { opacity: 1; transform: translateX(0); }
         }
         
         @keyframes lineAppear {
@@ -180,74 +161,11 @@ const ThinkersClubSection = () => {
           100% { left: 100%; }
         }
         
-        @keyframes paragraphFadeIn {
-          0% {
-            opacity: 0;
-            transform: translateY(50px) rotateX(30deg);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) rotateX(0deg);
-          }
-        }
-        
-        @keyframes buttonReveal {
-          0% {
-            opacity: 0;
-            transform: scale(0.5) rotate(-10deg);
-          }
-          70% {
-            opacity: 1;
-            transform: scale(1.1) rotate(2deg);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-          }
-        }
-        
-        @keyframes videoSlideIn {
-          0% {
-            opacity: 0;
-            transform: translateX(100px) rotateY(-30deg) scale(0.9);
-          }
-          70% {
-            opacity: 0.8;
-            transform: translateX(-10px) rotateY(5deg) scale(1.02);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0) rotateY(0deg) scale(1);
-          }
-        }
-        
         @keyframes floatUp {
-          0% {
-            transform: translateY(100vh) rotate(0deg);
-            opacity: 0;
-          }
-          10% {
-            opacity: 0.6;
-          }
-          90% {
-            opacity: 0.6;
-          }
-          100% {
-            transform: translateY(-100px) rotate(360deg);
-            opacity: 0;
-          }
-        }
-        
-        @keyframes ripple {
-          to {
-            transform: scale(2);
-            opacity: 0;
-          }
-        }
-        
-        @keyframes videoGlow {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.3); }
-          50% { box-shadow: 0 0 30px 10px rgba(255, 215, 0, 0.5); }
+          0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+          10% { opacity: 0.6; }
+          90% { opacity: 0.6; }
+          100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
         
         .sot-section {
@@ -288,68 +206,61 @@ const ThinkersClubSection = () => {
           pointer-events: none;
         }
         
-        .w3-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 20px;
+        .feature-container {
           position: relative;
-          z-index: 3;
+          width: 100%;
+          height: 600px;
+          overflow: hidden;
+          border-radius: 20px;
         }
         
-        .w3-row {
+        .feature-slide {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
           display: flex;
           align-items: center;
-          gap: 60px;
+          justify-content: space-between;
+          transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+          padding: 0 5%;
+          box-sizing: border-box;
         }
         
-        .w3-col {
-          flex: 1;
+        .feature-content {
+          width: 55%;
+          padding: 40px;
+          background: rgba(20, 20, 20, 0.85);
+          border-radius: 15px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 215, 0, 0.2);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+          transform-style: preserve-3d;
+          transform: perspective(1000px) rotateY(-5deg);
         }
         
-        .m6 {
-          flex: 0 0 50%;
-        }
-        
-        .desktop-padding {
-          padding-right: 40px;
-        }
-        
-        h2 {
-          font-size: 4rem;
-          font-weight: 900;
+        .feature-slide h2 {
+          font-size: 3rem;
           margin-bottom: 15px;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        h2 strong {
-          display: inline-block;
-          background: linear-gradient(45deg, #FFD700 0%, #FFA500 30%, #FFD700 60%, #FF8C00 100%);
+          color: #FFD700;
+          background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
           background-size: 300% 300%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: 
-            textReveal 2s ease-out forwards,
-            gradientWave 4s ease-in-out infinite,
-            textFloat 6s ease-in-out infinite;
-          transform: translateY(100px);
-          opacity: 0;
+          animation: gradientWave 4s ease-in-out infinite;
         }
         
-        h3 {
+        .feature-slide h3 {
           font-size: 1.1rem;
-          color: #888;
-          letter-spacing: 4px;
-          margin-bottom: 30px;
+          color: #aaa;
+          margin-bottom: 20px;
+          letter-spacing: 3px;
           position: relative;
-          overflow: hidden;
-          animation: slideInWithGlow 1.5s ease-out 0.5s forwards;
-          opacity: 0;
-          transform: translateX(-100px);
         }
         
-        h3::before {
+        .feature-slide h3::before {
           content: '';
           position: absolute;
           top: 50%;
@@ -357,176 +268,89 @@ const ThinkersClubSection = () => {
           width: 100%;
           height: 1px;
           background: linear-gradient(90deg, transparent, #FFD700, transparent);
-          animation: lineAppear 2s ease-out 1.5s forwards;
+          animation: lineAppear 2s ease-out forwards;
         }
         
-        p {
-          color: #ccc;
-          line-height: 1.8;
-          font-size: 1.1rem;
-          margin-bottom: 25px;
+        .feature-slide ul {
+          list-style-type: none;
+          padding: 0;
+          margin: 0 0 30px 0;
+        }
+        
+        .feature-slide li {
           position: relative;
-          opacity: 0;
-          transform: translateY(50px);
+          padding-left: 30px;
+          margin-bottom: 15px;
+          color: #eee;
+          line-height: 1.6;
+          font-size: 1.1rem;
         }
         
-        p:nth-of-type(1) {
-          animation: paragraphFadeIn 1s ease-out 1s forwards;
-        }
-        
-        p:nth-of-type(2) {
-          animation: paragraphFadeIn 1s ease-out 1.3s forwards;
-        }
-        
-        .w3-padding {
-          padding-top: 40px;
-          opacity: 0;
-          animation: buttonReveal 1.2s ease-out 1.8s forwards;
-        }
-        
-        .sot-btn {
-          display: inline-block;
-          padding: 18px 45px;
-          background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700);
-          background-size: 200% 200%;
-          color: #000;
-          text-decoration: none;
+        .feature-slide li::before {
+          content: '✓';
+          position: absolute;
+          left: 0;
+          color: #FFD700;
           font-weight: bold;
-          font-size: 1.1rem;
-          border-radius: 50px;
-          position: relative;
-          overflow: hidden;
-          transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-          box-shadow: 
-            0 8px 25px rgba(255, 215, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
-          text-transform: uppercase;
-          letter-spacing: 1px;
-        }
-        
-        .sot-btn::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-          transition: left 0.6s ease;
-        }
-        
-        .sot-btn::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 0;
-          height: 0;
-          background: rgba(255, 255, 255, 0.3);
-          border-radius: 50%;
-          transform: translate(-50%, -50%);
-          transition: width 0.6s ease, height 0.6s ease;
-        }
-        
-        .sot-btn:hover {
-          transform: translateY(-8px) scale(1.05);
-          box-shadow: 
-            0 15px 40px rgba(255, 215, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
-          background-position: 100% 0;
-        }
-        
-        .sot-btn:hover::before {
-          left: 100%;
-        }
-        
-        .sot-btn:hover::after {
-          width: 300px;
-          height: 300px;
-        }
-        
-        .sot-btn:active {
-          transform: translateY(-4px) scale(1.02);
-        }
-        
-        .w3-col:last-child {
-          position: relative;
-          opacity: 0;
-          animation: videoSlideIn 1.5s ease-out 2s forwards;
         }
         
         .video-container {
-          position: relative;
-          width: 100%;
+          width: 40%;
+          height: 70%;
           border-radius: 20px;
           overflow: hidden;
-          box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.3),
-            0 0 0 1px rgba(255, 215, 0, 0.1);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
           transform-style: preserve-3d;
-          transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          transform: perspective(1000px) rotateY(5deg);
+          transition: all 0.5s ease;
+          position: relative;
         }
         
         .video-container:hover {
-          transform: scale(1.03) rotateY(5deg) rotateX(2deg);
-          box-shadow: 
-            0 30px 60px rgba(0, 0, 0, 0.4),
-            0 0 0 1px rgba(255, 215, 0, 0.3),
-            0 0 50px rgba(255, 215, 0, 0.1);
-          animation: videoGlow 2s infinite;
+          transform: perspective(1000px) rotateY(5deg) scale(1.02);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
         }
         
         .video-container video {
           width: 100%;
-          height: auto;
-          border-radius: 20px;
+          height: 100%;
+          object-fit: cover;
           display: block;
-          transition: transform 0.5s ease;
         }
         
-        .video-overlay {
+        .navigation-dots {
+          display: flex;
+          justify-content: center;
+          margin-top: 30px;
+          gap: 15px;
+        }
+        
+        .dot {
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.3);
+          cursor: pointer;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .dot::after {
+          content: '';
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(45deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          border-radius: 20px;
-        }
-        
-        .video-container:hover .video-overlay {
-          opacity: 1;
-        }
-        
-        .play-icon {
-          width: 80px;
-          height: 80px;
-          background: rgba(255, 215, 0, 0.7);
+          background: #FFD700;
           border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transform: scale(0.8);
+          transform: scale(0);
           transition: transform 0.3s ease;
         }
         
-        .video-container:hover .play-icon {
+        .dot.active::after {
           transform: scale(1);
-        }
-        
-        .play-icon::after {
-          content: '';
-          width: 0;
-          height: 0;
-          border-top: 15px solid transparent;
-          border-left: 25px solid #000;
-          border-bottom: 15px solid transparent;
-          margin-left: 8px;
         }
         
         .floating-elements {
@@ -560,98 +384,95 @@ const ThinkersClubSection = () => {
           animation-duration: 12s;
         }
         
-        .animate-on-scroll {
-          opacity: 0;
-          transform: translateY(50px);
-          transition: all 1s ease-out;
-        }
-        
-        .animate-on-scroll.animated {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        
-        @media (max-width: 993px) {
-          .w3-row {
+        @media (max-width: 1024px) {
+          .feature-slide {
             flex-direction: column;
-            gap: 40px;
-            text-align: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
           }
           
-          .m6 {
-            flex: 1;
-          }
-          
-          .desktop-padding {
-            padding-right: 0;
-          }
-          
-          h2 {
-            font-size: 3rem;
+          .feature-content, .video-container {
+            width: 90%;
+            max-width: 300px;
+            transform: none !important;
           }
           
           .video-container {
-            max-width: 600px;
-            margin: 0 auto;
+            height: 250px;
           }
         }
         
         @media (max-width: 768px) {
-          h2 {
-            font-size: 2.5rem;
+          .feature-container {
+            height: auto;
+            min-height: 800px;
           }
           
-          .sot-section {
-            padding: 60px 0;
+          .feature-content {
+            padding: 25px;
+          }
+          
+          .feature-slide h2 {
+            font-size: 2.2rem;
           }
         }
       `}</style>
 
-      <section id="thinkers-club-details" className="sot-section sot-section-light">
+      <section className="sot-section">
         <div className="floating-elements" ref={floatingElementsRef}></div>
         <div className="w3-container">
-          <div className="w3-row">
-            <div className="w3-col m6 desktop-padding">
-              <h2 className="animate-on-scroll"><strong>Thinkers Club</strong></h2>
-              <h3 className="animate-on-scroll">IDEA GENERATING GROUP</h3>
-              <p className="animate-on-scroll">
-                A heaven for aspiring entrepreneurs! The most important aspect of
-                every venture is the business idea and its implementation
-                strategy.
-              </p>
-              <p className="animate-on-scroll">
-                With the help of our team of analysts and experts we provide
-                business ideas and its detailed execution plan every day inside
-                the Idea Generating Group.
-              </p>
-              <div className="w3-padding">
-                <a 
-                  href="#join" 
-                  className="sot-btn"
-                  onClick={handleButtonClick}
-                  ref={btnRef}
-                >
-                  Join Thinkers Club
-                </a>
-              </div>
-            </div>
-            <div className="w3-col m6 animate-on-scroll video-container">
-              <video 
-                ref={videoRef}
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                className="video-element"
+          <div className="feature-container animate-on-scroll"
+               onMouseEnter={() => setIsHovering(true)}
+               onMouseLeave={() => setIsHovering(false)}
+               onTouchStart={handleTouchStart}
+               onTouchMove={handleTouchMove}
+               onTouchEnd={handleTouchEnd}>
+            
+            {features.map((feature, index) => (
+              <div 
+                key={index}
+                className="feature-slide"
+                style={{
+                  transform: `translateX(${(index - activeIndex) * 100}%)`,
+                  zIndex: index === activeIndex ? 5 : 4
+                }}
               >
-                <source src="/videos/thinkersclub.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              <div className="video-overlay">
-                <div className="play-icon"></div>
+                <div className="feature-content">
+                  <h2>{feature.title}</h2>
+                  <h3>{feature.subtitle}</h3>
+                  <ul>
+                    {feature.description.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div className="video-container animate-on-scroll">
+                  <video 
+                    ref={el => videoRefs.current[index] = el}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                  >
+                    <source src={feature.video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
               </div>
-            </div>
+            ))}
+          </div>
+          
+          {/* Navigation dots */}
+          <div className="navigation-dots">
+            {features.map((_, index) => (
+              <div 
+                key={index}
+                className={`dot ${index === activeIndex ? 'active' : ''}`}
+                onClick={() => goToIndex(index)}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -659,4 +480,4 @@ const ThinkersClubSection = () => {
   );
 };
 
-export default ThinkersClubSection;
+export default FeaturesCarousel;
