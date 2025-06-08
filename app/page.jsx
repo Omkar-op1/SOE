@@ -7,6 +7,7 @@ import ThinkersClubChatbot from "@/components/chatbot";
 import Testimonials from "./sections/testimonials";
 
 import Brand from "./sections/brand";
+import DecisionSection from "./sections/decisionSection";
 
 
 export default function Page() {
@@ -18,6 +19,7 @@ export default function Page() {
       <Thinkers/>
       {/* <Testimonials/> */}
       <Brand/>
+     <DecisionSection />
       <ThinkersClubChatbot/>
     </div>
   );
