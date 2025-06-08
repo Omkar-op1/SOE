@@ -1,251 +1,292 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import BrandButton from '@/components/button';
 import { useRouter } from 'next/navigation';
+import { FiSend, FiX, FiMessageSquare, FiZap, FiAward, FiTrendingUp } from 'react-icons/fi';
 
-const FAQ = () => {
-  const [activeQuestion, setActiveQuestion] = useState(null);
+const MillionaireMindChatbot = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
   const router = useRouter();
-  const containerRef = useRef(null);
-  
-  const faqs = [
-    {
-      question: "How can Thinkers Club help me develop my startup idea?",
-      answer: "Thinkers Club offers a space to refine your ideas, connect with mentors, and access valuable resources. Our market researchers, data analysts, and financial experts provide business ideas based on consumer market studies and venture capital trends, ensuring your startup is set up for success."
-    },
-    {
-      question: "I already have a business idea. How will Thinkers Club help me?",
-      answer: "Even if you already have a business idea, Thinkers Club can provide invaluable support and resources. By joining Thinkers Club, you'll gain clarity on your idea's implementation and business model through expert reports created by our analysts in your specific sector. Our diverse rooms and expert guidance will ensure you refine and enhance your idea, increasing your chances of success."
-    },
-    {
-      question: "Will I get only business ideas inside Thinkers Club?",
-      answer: `No, Thinkers Club offers much more than just business ideas. Inside, you'll find nine different rooms:
-      1. Idea Generating Room: Get daily business ideas and inspiration.
-      2. Business Room: Learn business strategies based on case studies by experts.
-      3. Money Lounge: Discover wealth-multiplying strategies.
-      4. Research Room: Access research papers on controversial, trending, or under-explored topics.
-      5. Tech Room: Stay updated on the latest innovations in technology.
-      6. Matrix Room: Receive uncensored and raw daily news about world geopolitics.
-      7. Fitness Hub: Engage in programs to improve physical fitness and well-being.
-      8. Conference Room: Network with members worldwide.`
-    },
-    {
-      question: "I don't have experience in raising funds. Does it matter?",
-      answer: "No, it doesn't. Our team at Investors Table handles all your investor relations, including legal documentation, so you can focus on generating revenue while we focus on your valuation."
-    }
-  ];
 
-  const toggleQuestion = (index) => {
-    setActiveQuestion(activeQuestion === index ? null : index);
-  };
-
-  // Create floating thought bubbles
+  // Initial bot message
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    
-    const thoughtBubbles = () => {
-      const bubbleCount = 8;
-      for (let i = 0; i < bubbleCount; i++) {
-        const bubble = document.createElement('div');
-        bubble.className = 'thought-bubble';
-        
-        // Random properties
-        const size = Math.random() * 20 + 10;
-        const left = Math.random() * 100;
-        const animationDuration = Math.random() * 15 + 10;
-        const animationDelay = Math.random() * 5;
-        
-        bubble.style.cssText = `
-          width: ${size}px;
-          height: ${size}px;
-          left: ${left}%;
-          background: rgba(255, 215, 0, ${Math.random() * 0.2 + 0.05});
-          animation-duration: ${animationDuration}s;
-          animation-delay: ${animationDelay}s;
-        `;
-        
-        container.appendChild(bubble);
+    setMessages([
+      {
+        id: 1,
+        text: "Welcome to Thinkers Club AI. I'm your Millionaire Mind Mentor. How can I help you unlock your potential today?",
+        sender: 'bot',
+        timestamp: new Date(),
+        special: true
       }
-    };
-    
-    thoughtBubbles();
-    
-    return () => {
-      const bubbles = document.querySelectorAll('.thought-bubble');
-      bubbles.forEach(bubble => bubble.remove());
-    };
+    ]);
   }, []);
 
+  // Auto-scroll to bottom of messages
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+
+    // Add user message
+    const userMessage = {
+      id: messages.length + 1,
+      text: inputValue,
+      sender: 'user',
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+    setIsTyping(true);
+
+    // Simulate bot response after delay
+    setTimeout(() => {
+      const botResponse = generateBotResponse(inputValue);
+      setMessages(prev => [...prev, botResponse]);
+      setIsTyping(false);
+    }, 1500);
+  };
+
+  const generateBotResponse = (userInput) => {
+    const input = userInput.toLowerCase();
+    const now = new Date();
+    
+    // Common questions responses
+    if (input.includes('idea') || input.includes('startup')) {
+      return {
+        id: messages.length + 2,
+        text: "The Thinkers Club provides curated business ideas based on emerging market trends. Our data shows members who implement our vetted ideas see 3x higher success rates. Would you like me to share today's top opportunity?",
+        sender: 'bot',
+        timestamp: now,
+        options: ['Yes, please!', 'Not right now']
+      };
+    } else if (input.includes('investment') || input.includes('fund')) {
+      return {
+        id: messages.length + 2,
+        text: "Our Investors Table connects members with vetted opportunities. The average ROI for our premium investment suggestions last quarter was 47%. Access to these requires Elite membership.",
+        sender: 'bot',
+        timestamp: now,
+        special: true
+      };
+    } else if (input.includes('room') || input.includes('feature')) {
+      return {
+        id: messages.length + 2,
+        text: `Thinkers Club offers 8 specialized rooms:
+        
+1. 💡 Idea Generation - Daily validated opportunities
+2. 📈 Business Strategies - Case studies from top 1% earners
+3. 💰 Wealth Multipliers - Private investment channels
+4. 🔍 Research Vault - Proprietary market data
+5. 🤖 Tech Frontier - AI/Web3 insider knowledge
+6. 🌐 Matrix Room - Unfiltered geopolitical intelligence
+7. 🏋️ Fitness Hub - Biohacking for peak performance
+8. 🤝 Conference - Network with verified high-net-worth individuals`,
+        sender: 'bot',
+        timestamp: now,
+        formatted: true
+      };
+    } else if (input.includes('join') || input.includes('member')) {
+      return {
+        id: messages.length + 2,
+        text: "Becoming a Thinker unlocks exponential growth. Our members average 212% income increase within 12 months. I can guide you through the application process if you're ready.",
+        sender: 'bot',
+        timestamp: now,
+        cta: true
+      };
+    } else {
+      // Default philosophical response
+      const wisdom = [
+        "True wealth begins with mindset. The average millionaire reads 4x more than the general population. What are you learning today?",
+        "Opportunity flows to those prepared to receive it. Are you building systems or just chasing results?",
+        "The Thinkers Club difference: we don't just give fish, we teach how to find the richest fishing spots in any market condition.",
+        "Noticed your interest in growth. Did you know our top members dedicate 2 hours daily to strategic thinking? What's your cognitive investment plan?"
+      ];
+      return {
+        id: messages.length + 2,
+        text: wisdom[Math.floor(Math.random() * wisdom.length)],
+        sender: 'bot',
+        timestamp: now
+      };
+    }
+  };
+
+  const handleQuickReply = (reply) => {
+    const quickMessage = {
+      id: messages.length + 1,
+      text: reply,
+      sender: 'user',
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, quickMessage]);
+    setIsTyping(true);
+
+    setTimeout(() => {
+      const botResponse = generateBotResponse(reply);
+      setMessages(prev => [...prev, botResponse]);
+      setIsTyping(false);
+    }, 1200);
+  };
+
+  const formatTime = (date) => {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
   return (
-    <div 
-      ref={containerRef}
-      className="bg-[#0a0a0a] border border-[#2a2a2a] rounded-2xl p-8 max-w-2xl mx-auto my-16 shadow-xl relative overflow-hidden"
-    >
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent"></div>
-      <div className="absolute top-4 left-4 w-3 h-3 rounded-full bg-[#FFD700] animate-pulse"></div>
-      <div className="absolute bottom-4 right-4 w-3 h-3 rounded-full bg-[#FFD700] animate-pulse"></div>
-      
-      {/* Header */}
-      <div className="text-center mb-10 relative z-10">
-        <div className="inline-block bg-[#1a1a1a] p-4 rounded-full mb-4 border border-[#FFD700]/20">
-          <svg 
-            className="w-10 h-10 text-[#FFD700] animate-float" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="1.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
-            <path d="M9.5 3a6.5 6.5 0 0 1 6.5 6.5c0 4-6 9-6 9s-6-5-6-9A6.5 6.5 0 0 1 9.5 3z" />
-            <path d="M14 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-          </svg>
-        </div>
-        <h3 className="text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-[#FFD700] to-[#FFA500]">
-          Thinkers Club FAQ
-        </h3>
-        <p className="text-[#aaa] max-w-md mx-auto">
-          Answers to common questions about our exclusive thinkers community
-        </p>
-        <div className="h-px w-24 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent mx-auto my-6"></div>
-      </div>
-      
-      {/* FAQ Items */}
-      <div className="space-y-4 relative z-10">
-        {faqs.map((faq, index) => (
-          <div 
-            key={index}
-            className={`rounded-xl p-5 cursor-pointer transition-all duration-500 overflow-hidden ${
-              activeQuestion === index 
-                ? 'bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] border border-[#FFD700]/30 shadow-[0_0_20px_rgba(255,215,0,0.1)]'
-                : 'bg-[#121212] hover:bg-[#1a1a1a] border border-[#2a2a2a]'
-            }`}
-            onClick={() => toggleQuestion(index)}
-          >
-            <div className="flex items-start">
-              <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mr-4 mt-1 transition-all ${
-                activeQuestion === index 
-                  ? 'bg-[#FFD700] text-black'
-                  : 'bg-[#2a2a2a] text-[#FFD700]'
-              }`}>
-                <span className="font-bold text-sm">
-                  {activeQuestion === index ? '−' : '+'}
-                </span>
+    <>
+      {/* Chatbot toggle button */}
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-8 right-8 z-50 flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[#FFD700] to-[#FFA500] shadow-lg hover:shadow-xl transition-all duration-300 animate-pulse-slow"
+        >
+          <FiMessageSquare className="text-black text-2xl" />
+        </button>
+      )}
+
+      {/* Chatbot container */}
+      {isOpen && (
+        <div className="fixed bottom-8 right-8 z-50 w-96 rounded-2xl overflow-hidden shadow-2xl border border-[#FFD700]/30 bg-[#0a0a0a]">
+          {/* Chat header */}
+          <div className="bg-gradient-to-r from-[#1a1a1a] to-[#0f0f0f] p-4 flex justify-between items-center border-b border-[#FFD700]/20">
+            <div className="flex items-center">
+              <div className="bg-[#FFD700] text-black p-2 rounded-lg mr-3">
+                <FiZap className="text-xl" />
               </div>
-              
-              <div className="flex-1">
-                <h4 className={`font-medium text-lg transition-all ${
-                  activeQuestion === index 
-                    ? 'text-[#FFD700]'
-                    : 'text-white'
-                }`}>
-                  {faq.question}
-                </h4>
-                
+              <div>
+                <h3 className="font-bold text-white">Millionaire Mind AI</h3>
+                <p className="text-xs text-[#FFD700]">Thinkers Club Exclusive</p>
+              </div>
+            </div>
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="text-[#aaa] hover:text-white p-1 rounded-full transition-colors"
+            >
+              <FiX className="text-xl" />
+            </button>
+          </div>
+
+          {/* Messages container */}
+          <div className="h-96 overflow-y-auto p-4 bg-[#121212]">
+            {messages.map((message) => (
+              <div 
+                key={message.id} 
+                className={`mb-4 flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
                 <div 
-                  className={`overflow-hidden transition-all duration-500 ${
-                    activeQuestion === index 
-                      ? 'max-h-[1000px] mt-4 opacity-100'
-                      : 'max-h-0 opacity-0'
+                  className={`max-w-xs lg:max-w-md rounded-2xl p-4 ${message.sender === 'user' 
+                    ? 'bg-gradient-to-br from-[#FFD700] to-[#FFA500] text-black' 
+                    : message.special
+                      ? 'bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] border border-[#FFD700]/30'
+                      : 'bg-[#1a1a1a]'
                   }`}
                 >
-                  <div className="pl-2 border-l-2 border-[#FFD700]/50">
-                    {faq.answer.split('\n').map((paragraph, i) => (
-                      <p 
-                        key={i} 
-                        className="text-[#ccc] mb-3 last:mb-0 leading-relaxed animate-fadeIn"
-                      >
-                        {paragraph}
-                      </p>
-                    ))}
+                  {message.formatted ? (
+                    <pre className="whitespace-pre-wrap font-sans text-sm">{message.text}</pre>
+                  ) : (
+                    <p className="text-sm">{message.text}</p>
+                  )}
+                  
+                  <div className={`text-xs mt-2 ${message.sender === 'user' ? 'text-black/70' : 'text-[#FFD700]/70'}`}>
+                    {formatTime(message.timestamp)}
+                  </div>
+                  
+                  {message.options && (
+                    <div className="mt-3 space-y-2">
+                      {message.options.map((option, i) => (
+                        <button
+                          key={i}
+                          onClick={() => handleQuickReply(option)}
+                          className="block w-full text-left px-3 py-2 text-xs rounded-lg bg-[#0a0a0a]/50 hover:bg-[#FFD700]/20 hover:text-[#FFD700] transition-colors border border-[#2a2a2a]"
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {message.cta && (
+                    <button
+                      onClick={() => router.push('/membership')}
+                      className="mt-3 w-full py-2 px-4 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black text-sm font-medium rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center"
+                    >
+                      <FiAward className="mr-2" />
+                      Explore Membership
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+            
+            {isTyping && (
+              <div className="flex justify-start mb-4">
+                <div className="bg-[#1a1a1a] rounded-2xl p-4">
+                  <div className="flex space-x-2">
+                    <div className="w-2 h-2 rounded-full bg-[#FFD700] animate-bounce"></div>
+                    <div className="w-2 h-2 rounded-full bg-[#FFD700] animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 rounded-full bg-[#FFD700] animate-bounce" style={{ animationDelay: '0.4s' }}></div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
+            
+            <div ref={messagesEndRef} />
           </div>
-        ))}
-      </div>
-      
-      {/* CTA Section */}
-      <div className="text-center mt-12 pt-8 relative z-10 border-t border-[#2a2a2a]">
-        <div className="inline-flex items-center justify-center bg-[#1a1a1a] border border-[#FFD700]/20 rounded-full px-6 py-2 mb-6 animate-pulse-slow">
-          <span className="text-[#FFD700] mr-2">✦</span>
-          <span className="text-white font-medium">Exclusive Membership</span>
-          <span className="text-[#FFD700] ml-2">✦</span>
+
+          {/* Input area */}
+          <form onSubmit={handleSendMessage} className="border-t border-[#2a2a2a] bg-[#0a0a0a] p-4">
+            <div className="flex items-center">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Ask about wealth strategies..."
+                className="flex-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-l-lg py-3 px-4 text-white text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD700]/50"
+              />
+              <button
+                type="submit"
+                disabled={!inputValue.trim()}
+                className={`bg-gradient-to-br from-[#FFD700] to-[#FFA500] text-black p-3 rounded-r-lg ${!inputValue.trim() ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'}`}
+              >
+                <FiSend className="text-lg" />
+              </button>
+            </div>
+            <p className="text-xs text-[#555] mt-2 flex items-center">
+              <FiTrendingUp className="mr-1" /> Ask about investment strategies, business ideas, or mindset techniques
+            </p>
+          </form>
         </div>
-        
-        <p className="text-xl text-white mb-6 max-w-md mx-auto">
-          Ready to join our community of innovators and thinkers?
-        </p>
-        
-        <div className="animate-bounce-slow">
-          <BrandButton 
-            label="Become a Member" 
-            onClick={() => router.push('/register')}
-            className="transform transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(255,215,0,0.3)]"
-          />
-        </div>
-        
-        <p className="text-[#777] text-sm mt-6">
-          Limited spots available - Join our elite thinkers community today
-        </p>
-      </div>
+      )}
 
       <style jsx global>{`
-        @keyframes float {
+        @keyframes bounce {
           0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
-        }
-        
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes bounce-slow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
+          50% { transform: translateY(-5px); }
         }
         
         @keyframes pulse-slow {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.7; }
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
         }
         
-        @keyframes floatBubble {
-          0% { transform: translateY(100px) scale(0.5); opacity: 0; }
-          20% { opacity: 0.4; }
-          90% { opacity: 0.4; }
-          100% { transform: translateY(-50px) scale(1); opacity: 0; }
-        }
-        
-        .animate-float {
-          animation: float 4s ease-in-out infinite;
-        }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.6s ease forwards;
-        }
-        
-        .animate-bounce-slow {
-          animation: bounce-slow 3s infinite;
+        .animate-bounce {
+          animation: bounce 1s infinite;
         }
         
         .animate-pulse-slow {
           animation: pulse-slow 3s infinite;
         }
-        
-        .thought-bubble {
-          position: absolute;
-          border-radius: 50%;
-          animation: floatBubble linear infinite;
-          z-index: 0;
-        }
       `}</style>
-    </div>
+    </>
   );
 };
 
-export default FAQ;
+export default MillionaireMindChatbot;

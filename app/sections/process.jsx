@@ -22,7 +22,13 @@ const TimelineProcess = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-900 to-[#0a0a0a] relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-b from-[#050815] to-[#050815] relative overflow-hidden">
+      {/* Top fade overlay */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#050815] to-transparent pointer-events-none z-20"></div>
+      
+      {/* Bottom fade overlay */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050815] to-transparent pointer-events-none z-20"></div>
+      
       {/* Floating elements */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(15)].map((_, i) => (
@@ -44,7 +50,7 @@ const TimelineProcess = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FFD700] bg-clip-text text-transparent">
-          Project Timeline
+          Investment Process
         </h2>
         
         <div className="timeline relative max-w-4xl mx-auto">
@@ -57,11 +63,10 @@ const TimelineProcess = () => {
             <div className="timeline-content bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl border border-[#FFD700]/20 shadow-[0_5px_20px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,215,0,0.1)] w-full md:w-5/12 md:mr-auto">
               <div className="absolute -right-2 top-8 w-4 h-4 bg-gray-800 transform rotate-45 md:block hidden border-r border-b border-[#FFD700]/20"></div>
               <h3 className="text-2xl font-bold text-[#FFD700] mb-3 flex items-center">
-                <span className="mr-2">🔍</span> Week 1-2: Discovery
+                <span className="mr-2">📝</span> Step 1: Create Account
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Understanding your business needs and gathering requirements through in-depth discussions 
-                and research to establish project foundations.
+                Sign up for your investor account to get started on your journey to wealth creation through strategic startup investments.
               </p>
             </div>
           </div>
@@ -71,11 +76,10 @@ const TimelineProcess = () => {
             <div className="timeline-content bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl border border-[#FFD700]/20 shadow-[0_5px_20px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,215,0,0.1)] w-full md:w-5/12 md:ml-auto">
               <div className="absolute -left-2 top-8 w-4 h-4 bg-gray-800 transform rotate-45 md:block hidden border-l border-b border-[#FFD700]/20"></div>
               <h3 className="text-2xl font-bold text-[#FFD700] mb-3 flex items-center">
-                <span className="mr-2">🎨</span> Week 3-4: Design
+                <span className="mr-2">🏢</span> Step 2: Input Your Information
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Creating wireframes, mockups, and finalizing the visual design with multiple iterations 
-                to ensure the best user experience and interface.
+                Provide information about yourself and your investment preferences to help us understand your profile and investment location.
               </p>
             </div>
           </div>
@@ -85,11 +89,36 @@ const TimelineProcess = () => {
             <div className="timeline-content bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl border border-[#FFD700]/20 shadow-[0_5px_20px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,215,0,0.1)] w-full md:w-5/12 md:mr-auto">
               <div className="absolute -right-2 top-8 w-4 h-4 bg-gray-800 transform rotate-45 md:block hidden border-r border-b border-[#FFD700]/20"></div>
               <h3 className="text-2xl font-bold text-[#FFD700] mb-3 flex items-center">
-                <span className="mr-2">💻</span> Week 5-8: Development
+                <span className="mr-2">📋</span> Step 3: Share Investment Blueprint
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Building the application with modern technologies, following best practices, 
-                and providing regular progress updates through demos and meetings.
+                Define your investment blueprint including preferred founders, sectors, revenue models, and past investments to help us understand your investing pattern.
+              </p>
+            </div>
+          </div>
+          
+          <div className="timeline-item mb-20 relative opacity-0 translate-x-10 md:transform-none md:-translate-x-10 transition-all duration-700">
+            <div className="timeline-dot absolute left-1/2 top-8 -ml-2.5 w-5 h-5 bg-[#FFD700] rounded-full transform -translate-x-1/2 shadow-[0_0_15px_rgba(255,215,0,0.5)]"></div>
+            <div className="timeline-content bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl border border-[#FFD700]/20 shadow-[0_5px_20px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,215,0,0.1)] w-full md:w-5/12 md:ml-auto">
+              <div className="absolute -left-2 top-8 w-4 h-4 bg-gray-800 transform rotate-45 md:block hidden border-l border-b border-[#FFD700]/20"></div>
+              <h3 className="text-2xl font-bold text-[#FFD700] mb-3 flex items-center">
+                <span className="mr-2">💡</span> Step 4: Thinkers Club Integration
+              </h3>
+              <p className="text-gray-300 leading-relaxed">
+                Our analysts use your blueprint to provide business ideas in Thinkers Club, guiding aspiring entrepreneurs to create startups aligned with your preferences.
+              </p>
+            </div>
+          </div>
+          
+          <div className="timeline-item mb-20 relative opacity-0 -translate-x-10 transition-all duration-700">
+            <div className="timeline-dot absolute left-1/2 top-8 -ml-2.5 w-5 h-5 bg-[#FFD700] rounded-full transform -translate-x-1/2 shadow-[0_0_15px_rgba(255,215,0,0.5)]"></div>
+            <div className="timeline-content bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl border border-[#FFD700]/20 shadow-[0_5px_20px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,215,0,0.1)] w-full md:w-5/12 md:mr-auto">
+              <div className="absolute -right-2 top-8 w-4 h-4 bg-gray-800 transform rotate-45 md:block hidden border-r border-b border-[#FFD700]/20"></div>
+              <h3 className="text-2xl font-bold text-[#FFD700] mb-3 flex items-center">
+                <span className="mr-2">🎯</span> Step 5: Smart Matching
+              </h3>
+              <p className="text-gray-300 leading-relaxed">
+                Our team compares hundreds of startups with your blueprint to identify the most investable opportunities that align with your investment criteria.
               </p>
             </div>
           </div>
@@ -99,11 +128,10 @@ const TimelineProcess = () => {
             <div className="timeline-content bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl border border-[#FFD700]/20 shadow-[0_5px_20px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,215,0,0.1)] w-full md:w-5/12 md:ml-auto">
               <div className="absolute -left-2 top-8 w-4 h-4 bg-gray-800 transform rotate-45 md:block hidden border-l border-b border-[#FFD700]/20"></div>
               <h3 className="text-2xl font-bold text-[#FFD700] mb-3 flex items-center">
-                <span className="mr-2">🚀</span> Week 9-10: Testing & Launch
+                <span className="mr-2">💰</span> Step 6: Monthly Opportunities
               </h3>
               <p className="text-gray-300 leading-relaxed">
-                Comprehensive quality assurance, final testing across devices and scenarios, 
-                and smooth project deployment with post-launch support.
+                Each month, receive three carefully curated startups that align with your investment values, simplifying your path to wealth creation.
               </p>
             </div>
           </div>
