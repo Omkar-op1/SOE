@@ -16,7 +16,7 @@ const MillionaireMindChatbot = () => {
     setMessages([
       {
         id: 1,
-        text: "Welcome to Thinkers Club AI. I'm your Millionaire Mind Mentor. How can I help you unlock your potential today?",
+        text: "Welcome to School of Enterpeuners. I'm your Baniya. How can I help you unlock your potential today?",
         sender: 'bot',
         timestamp: new Date(),
         special: true
@@ -162,8 +162,7 @@ const MillionaireMindChatbot = () => {
                 <FiZap className="text-xl" />
               </div>
               <div>
-                <h3 className="font-bold text-white">Millionaire Mind AI</h3>
-                <p className="text-xs text-[#FFD700]">Thinkers Club Exclusive</p>
+                <h3 className="font-bold text-white">Baniya ka Dimag</h3>
               </div>
             </div>
             <button 
