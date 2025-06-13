@@ -266,6 +266,7 @@ const IdeaCompanyCTA = () => {
         
         h1 .question {
           display: block;
+          text-align: center;
           background: linear-gradient(45deg, #64748B 0%, #94A3B8 30%, #64748B 60%, #94A3B8 100%);
           background-size: 300% 300%;
           -webkit-background-clip: text;
