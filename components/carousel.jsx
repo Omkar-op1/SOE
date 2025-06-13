@@ -722,8 +722,49 @@ const ProductsCarousel = () => {
             bottom: 20px;
           }
         }
-      `}</style>
 
+         
+    .school-title-section {
+    position: relative;
+    padding: 0px 0;
+    text-align: center;
+    background: #050815;
+    z-index: 2;
+  }
+  
+  .school-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0 auto 20px;
+    background: linear-gradient(to right, #FFD700, #FFA500, #FFD700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    display: inline-block;
+    max-width: 90%;
+  }
+  
+  .school-title::after {
+    content: '';
+    position: absolute;
+    bottom: -0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #FFD700, transparent);
+  }
+  
+  @media (max-width: 768px) {
+    .school-title {
+      font-size: 2.2rem;
+    }
+  }
+      `}</style>
+  <section className="school-title-section animate-on-scroll">
+        <h2 className="school-title">Inside Our School</h2>
+      </section>
       <div className="carousel-container">
         <div className="absolute inset-0 z-[1] pointer-events-none">
           <div className="absolute top-0 left-0 right-0 h-[60px] bg-gradient-to-b from-[#050815] via-[rgba(5,8,21,0.8)] to-transparent"></div>
