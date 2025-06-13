@@ -4,7 +4,41 @@ import { useEffect, useRef, useState } from "react"
 const ThinkersClubHero = () => {
   const floatingElementsRef = useRef(null)
   const videoRef = useRef(null)
+  const titleRef = useRef(null)
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+  const [isTypingComplete, setIsTypingComplete] = useState(false)
+
+  // Typewriter effect implementation
+  useEffect(() => {
+    const titleElement = titleRef.current
+    if (!titleElement) return
+
+    const text = "Thinkers Club"
+    let currentIndex = 0
+    const typingSpeed = 150
+    const cursorBlinkSpeed = 700
+
+    const typeWriter = () => {
+      if (currentIndex < text.length) {
+        titleElement.textContent = text.substring(0, currentIndex + 1)
+        currentIndex++
+        setTimeout(typeWriter, typingSpeed)
+      } else {
+        setIsTypingComplete(true)
+        // Remove cursor after animation completes
+        setTimeout(() => {
+          titleElement.style.borderRight = 'none'
+        }, cursorBlinkSpeed)
+      }
+    }
+
+    // Start typing after a short delay
+    const timer = setTimeout(() => {
+      typeWriter()
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const container = floatingElementsRef.current
@@ -221,6 +255,11 @@ const ThinkersClubHero = () => {
             transform: scale(1.1) rotate(2deg);
           }
         }
+
+        @keyframes typewriterBlink {
+          0%, 100% { border-color: transparent; }
+          50% { border-color: #FFD700; }
+        }
         
         .hero-container {
           position: relative;
@@ -327,18 +366,27 @@ const ThinkersClubHero = () => {
           animation: textReveal 1s 0.2s ease-out both;
         }
         
-        h1 strong {
+        .typewriter-title {
           display: inline-block;
           background: linear-gradient(45deg, #FFD700 0%, #FFA500 30%, #FFD700 60%, #FF8C00 100%);
           background-size: 300% 300%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: gradientWave 4s ease-in-out infinite;
+          animation: 
+            gradientWave 4s ease-in-out infinite,
+            typewriterBlink 0.7s step-end infinite;
           position: relative;
+          overflow: hidden;
+          border-right: 3px solid;
         }
 
-        h1 strong::after {
+        .typewriter-title.complete {
+          animation: gradientWave 4s ease-in-out infinite;
+          border-right: none;
+        }
+
+        .typewriter-title::after {
           content: '';
           position: absolute;
           top: 0;
@@ -556,7 +604,11 @@ const ThinkersClubHero = () => {
         <div className="hero-content">
           <div className="hero-text">
             <h1>
-              <strong>Thinkers Club</strong>
+              <span className="font-size: 5rem; block mb-4 text-5xl text-white-400">Learn about startups inside</span>
+              <span 
+                ref={titleRef}
+                className={`typewriter-title ${isTypingComplete ? 'complete' : ''}`}
+              ></span>
             </h1>
             <h2 className="subtitle">Daily Business Ideas</h2>
             <p className="description">
