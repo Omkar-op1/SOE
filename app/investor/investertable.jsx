@@ -108,7 +108,7 @@ const InvestorsTable = () => {
   }, [startupVisible]);
 
   return (
-    <section className="relative bg-gradient-to-b from-gray-900 to-[#0a0a0a] overflow-hidden min-h-screen">
+    <section id="inv" className="relative bg-gradient-to-b from-gray-900 to-[#0a0a0a] overflow-hidden min-h-screen">
       {/* Floating gold particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {[...Array(20)].map((_, i) => (
@@ -125,12 +125,13 @@ const InvestorsTable = () => {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 relative z-10">
+      <div id="inv" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 relative z-10">
         
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
           {/* Investors Section - Fixed */}
           <div 
+
             ref={investorSectionRef}
             className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 md:p-8 rounded-xl border border-[#FFD700]/20 shadow-lg relative overflow-hidden animate-on-scroll opacity-0"
           >

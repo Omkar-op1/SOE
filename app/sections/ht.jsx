@@ -172,7 +172,8 @@ const PricingPage = () => {
               <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                 <button className="relative overflow-hidden bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-[1.03] shadow-lg hover:shadow-green-500/30">
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    Enroll Now for ₹199
+                    <a href="/checkout">Enroll Now for ₹199</a>
+                    
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                     </svg>

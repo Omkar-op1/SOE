@@ -107,6 +107,7 @@ export default function Hero() {
     ripple.className = "ripple";
 
     btn.appendChild(ripple);
+
     setTimeout(() => ripple.remove(), 600);
   }
 
@@ -156,7 +157,8 @@ export default function Hero() {
               <BrandButton
                 ref={btnRef}
                 label="Join Us"
-                onClick={handleButtonClick}
+                onClick={() => window.location.href = "/checkout/index.php"}
+
                 className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-gray-900 hover:from-[#FFA500] hover:to-[#FFD700]"
               />
             </div>

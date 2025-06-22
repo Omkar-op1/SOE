@@ -817,7 +817,7 @@ const IdeaCommunityHero = () => {
             </div>
             
             <div className="cta-buttons">
-              <button className="primary-btn" onClick={handleButtonClick}>
+              <button className="primary-btn" onClick={() => window.location.href = "/checkout"}>
                 Join Community
               </button>
               <button className="secondary-btn">

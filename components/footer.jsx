@@ -47,7 +47,8 @@ const Footer = () => {
             <div className="footer-login">
              <BrandButton
       label="Welcome to thinkers club"
-      onClick={() => router.push('https://admin.theideacompany.io/login')}
+      onClick={() => window.location.href = "https://admin.theideacompany.io/login"}
+
       
     />
             </div>

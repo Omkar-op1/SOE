@@ -716,11 +716,13 @@ const InvestorsTableHero = () => {
             </div>
 
             <div className="cta-buttons">
-              <button className="primary-btn" onClick={handleButtonClick}>
+              <button className="primary-btn" onClick={() => window.location.href = "/checkout"}
+>
                 Access Investors Now
               </button>
-              <button className="secondary-btn">
-                Learn More
+              <button className="secondary-btn" href="#inv">
+                <a href="#inv">   Learn More </a>
+             
               </button>
             </div>
           </div>

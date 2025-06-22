@@ -716,7 +716,8 @@ const ThinkersClubHero = () => {
             </div>
 
             <div className="cta-buttons">
-              <button className="primary-btn" onClick={handleButtonClick}>
+              <button className="primary-btn" onClick={() => window.location.href = "https://admin.theideacompany.io/login"
+}>
                 Join Thinkers Club
               </button>
               <button className="secondary-btn">

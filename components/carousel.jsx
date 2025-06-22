@@ -16,6 +16,7 @@ const ProductsCarousel = () => {
       features: "World class Custom Built Application with 8+ Learning Groups.",
       buttonText: "Join Thinkers Club",
       videoSrc: "Thinkers_Club.mp4",
+      link:"https://admin.theideacompany.io/login"
     },
     {
       id: "investors-table",
@@ -26,6 +27,8 @@ const ProductsCarousel = () => {
         "Schedule Meetings Directly with Investors through Inbuilt Meeting and chat options. Get all Legal and Documentation Services completed by our team using our Custom built Hassle-Free User Interface.",
       buttonText: "Access Investors",
       videoSrc: "Investors_Table.mp4",
+            link:"/checkout"
+
     },
     {
       id: "idea-community",
@@ -36,6 +39,8 @@ const ProductsCarousel = () => {
         "Get access to professionals who are Willing to work in Startups. Hand-Pick and Create your Dream Team.",
       buttonText: "Join Community",
       videoSrc: "Idea_Community.mp4",
+            link:"/checkout/"
+
     },
   ]
 
@@ -133,29 +138,31 @@ const ProductsCarousel = () => {
     }, 6000)
   }
 
-  const handleButtonClick = (e) => {
-    const btn = e.currentTarget
-    const ripple = document.createElement("span")
-    const rect = btn.getBoundingClientRect()
-    const size = Math.max(rect.height, rect.width)
-    const x = e.clientX - rect.left - size / 2
-    const y = e.clientY - rect.top - size / 2
+  const handleButtonClick = (link) => {
+    // const btn = e.currentTarget
+    // const ripple = document.createElement("span")
+    // const rect = btn.getBoundingClientRect()
+    // const size = Math.max(rect.height, rect.width)
+    // const x = e.clientX - rect.left - size / 2
+    // const y = e.clientY - rect.top - size / 2
 
-    ripple.style.position = "absolute"
-    ripple.style.width = ripple.style.height = size + "px"
-    ripple.style.left = x + "px"
-    ripple.style.top = y + "px"
-    ripple.style.background = "rgba(255, 255, 255, 0.5)"
-    ripple.style.borderRadius = "50%"
-    ripple.style.transform = "scale(0)"
-    ripple.style.animation = "ripple 0.6s linear"
-    ripple.style.pointerEvents = "none"
+    // ripple.style.position = "absolute"
+    // ripple.style.width = ripple.style.height = size + "px"
+    // ripple.style.left = x + "px"
+    // ripple.style.top = y + "px"
+    // ripple.style.background = "rgba(255, 255, 255, 0.5)"
+    // ripple.style.borderRadius = "50%"
+    // ripple.style.transform = "scale(0)"
+    // ripple.style.animation = "ripple 0.6s linear"
+    // ripple.style.pointerEvents = "none"
+    
+    window.location.href = link;
 
-    btn.appendChild(ripple)
+    // btn.appendChild(ripple)
 
-    setTimeout(() => {
-      ripple.remove()
-    }, 600)
+    // setTimeout(() => {
+    //   ripple.remove()
+    // }, 600)
   }
 
   return (
@@ -784,7 +791,7 @@ const ProductsCarousel = () => {
                   <h3>{product.subtitle}</h3>
                   <p className="slide-description">{product.description}</p>
                   <p className="slide-features">{product.features}</p>
-                  <button className="slide-btn" onClick={handleButtonClick}>
+                  <button className="slide-btn" onClick={() => window.location.href = product.link}>
                     {product.buttonText}
                   </button>
                 </div>

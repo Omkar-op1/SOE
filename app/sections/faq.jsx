@@ -310,9 +310,9 @@ const FAQ = () => {
         "Visit Idea Community"
       }
       onClick={() => router.push(
-        activeTab === 'thinkers' ? '/register' : 
-        activeTab === 'investors' ? '/investors' : 
-        '/idea-community'
+        activeTab === 'thinkers' ? '/thinkers' : 
+        activeTab === 'investors' ? '/investor' : 
+        '/Idea-community'
       )}
       className="transform transition-all hover:scale-105 hover:shadow-[0_0_25px_rgba(255,215,0,0.3)]"
     />
