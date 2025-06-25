@@ -1,10 +1,49 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 'use client'
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const IdeaCompanyCTA = () => {
   const floatingElementsRef = useRef(null);
-  const videoRef = useRef(null);
   const btnRef = useRef(null);
+  const sliderRef = useRef(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Sample images - replace with your actual image paths
+  const sliderImages = [
+    '/images/slide1.jpg',
+    '/images/slide2.jpg',
+    '/images/slide3.jpg',
+    '/images/slide4.jpg',
+    '/images/slide5.jpg'
+  ];
 
   useEffect(() => {
     // Create floating elements
@@ -33,14 +72,6 @@ const IdeaCompanyCTA = () => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add("animated");
-          
-          if (entry.target.classList.contains("video-container") && videoRef.current) {
-            videoRef.current.play();
-          }
-        } else {
-          if (entry.target.classList.contains("video-container") && videoRef.current) {
-            videoRef.current.pause();
-          }
         }
       });
     }, observerOptions);
@@ -75,11 +106,17 @@ const IdeaCompanyCTA = () => {
 
     animateParallax();
 
+    // Auto slide change
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
+    }, 5000);
+
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       observer.disconnect();
+      clearInterval(interval);
     };
-  }, []);
+  }, [sliderImages.length]);
 
   // Ripple effect for buttons
   const handleButtonClick = (e) => {
@@ -107,9 +144,14 @@ const IdeaCompanyCTA = () => {
     }, 600);
   };
 
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
   return (
     <div className="min-h-screen font-sans overflow-hidden">
       <style jsx>{`
+        /* Previous styles remain the same until .video-container */
         @keyframes textReveal {
           0% {
             transform: translateY(100px) rotateX(-90deg);
@@ -434,7 +476,8 @@ const IdeaCompanyCTA = () => {
           animation: videoSlideIn 1.5s ease-out 2.5s forwards;
         }
         
-        .video-container {
+        
+        .slider-container {
           position: relative;
           width: 120%;
           max-width: 800px;
@@ -448,69 +491,108 @@ const IdeaCompanyCTA = () => {
           transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        .video-container:hover {
+        .slider-container:hover {
           transform: scale(1.03) rotateY(5deg) rotateX(2deg);
           box-shadow: 
             0 30px 60px rgba(0, 0, 0, 0.4),
             0 0 0 1px rgba(100, 116, 139, 0.3),
             0 0 50px rgba(100, 116, 139, 0.1);
-          animation: videoGlow 2s infinite;
         }
         
-        .video-container video {
-          width: 100%;
-          height: auto;
-          border-radius: 20px;
-          display: block;
+        .slider-track {
+          display: flex;
           transition: transform 0.5s ease;
+          height: 400px;
         }
         
-        .video-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
+        .slider-slide {
+          min-width: 100%;
+          height: 100%;
+          position: relative;
+        }
+        
+        .slider-image {
           width: 100%;
           height: 100%;
-          background: linear-gradient(45deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+          object-fit: cover;
+          display: block;
+        }
+        
+        .slider-controls {
+          position: absolute;
+          bottom: 20px;
+          left: 0;
+          right: 0;
           display: flex;
-          align-items: center;
           justify-content: center;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          border-radius: 20px;
+          gap: 10px;
+          z-index: 2;
         }
         
-        .video-container:hover .video-overlay {
-          opacity: 1;
+        .slider-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.5);
+          cursor: pointer;
+          transition: all 0.3s ease;
         }
         
-        .play-icon {
-          width: 80px;
-          height: 80px;
+        .slider-dot.active {
+          background: #64748B;
+          transform: scale(1.2);
+        }
+        
+        .slider-nav {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 40px;
+          height: 40px;
           background: rgba(100, 116, 139, 0.7);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          transform: scale(0.8);
-          transition: transform 0.3s ease;
+          cursor: pointer;
+          z-index: 2;
+          opacity: 0;
+          transition: opacity 0.3s ease;
         }
         
-        .video-container:hover .play-icon {
-          transform: scale(1);
+        .slider-container:hover .slider-nav {
+          opacity: 1;
         }
         
-        .play-icon::after {
+        .slider-prev {
+          left: 15px;
+        }
+        
+        .slider-next {
+          right: 15px;
+        }
+        
+        .slider-nav::after {
           content: '';
-          width: 0;
-          height: 0;
-          border-top: 15px solid transparent;
-          border-left: 25px solid #000;
-          border-bottom: 15px solid transparent;
-          margin-left: 8px;
+          width: 10px;
+          height: 10px;
+          border-top: 2px solid white;
+          border-left: 2px solid white;
         }
         
-        .floating-elements {
+        .slider-prev::after {
+          transform: rotate(-45deg);
+          margin-right: -2px;
+        }
+        
+        .slider-next::after {
+          transform: rotate(135deg);
+          margin-left: -2px;
+        }
+        
+        /* Keep all other existing styles the same */
+
+           .floating-elements {
           position: absolute;
           top: 0;
           left: 0;
@@ -643,6 +725,7 @@ const IdeaCompanyCTA = () => {
             font-size: 2.2rem;
           }
         }
+        
       `}</style>
 
       <section className="cta-section">
@@ -688,21 +771,39 @@ const IdeaCompanyCTA = () => {
                 </div>
               </div>
             </div>
-            <div className="w3-col m6 animate-on-scroll video-container">
-              <video
-                ref={videoRef}
-                autoPlay
-                loop
-                playsInline
-                controls
-                muted={false} // Explicitly set to false
-                className="video-element"
+            <div className="w3-col m6 animate-on-scroll slider-container">
+              <div 
+                className="slider-track"
+                ref={sliderRef}
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
-                <source src="/Main.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              <div className="video-overlay">
+                {sliderImages.map((image, index) => (
+                  <div className="slider-slide" key={index}>
+                    <img 
+                      src={image} 
+                      alt={`Slide ${index + 1}`} 
+                      className="slider-image"
+                    />
+                  </div>
+                ))}
               </div>
+              <div className="slider-controls">
+                {sliderImages.map((_, index) => (
+                  <div 
+                    key={index}
+                    className={`slider-dot ${currentSlide === index ? 'active' : ''}`}
+                    onClick={() => goToSlide(index)}
+                  />
+                ))}
+              </div>
+              <div 
+                className="slider-nav slider-prev"
+                onClick={() => setCurrentSlide(prev => (prev - 1 + sliderImages.length) % sliderImages.length)}
+              />
+              <div 
+                className="slider-nav slider-next"
+                onClick={() => setCurrentSlide(prev => (prev + 1) % sliderImages.length)}
+              />
             </div>    
           </div>
         </div>
