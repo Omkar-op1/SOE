@@ -5,7 +5,20 @@ const IdeaCommunityHero = () => {
   const floatingElementsRef = useRef(null)
   const videoRef = useRef(null)
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
-
+   const [floatingElements] = useState(() => {
+    const elements = []
+    for (let i = 0; i < 25; i++) {
+      elements.push({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 8,
+        duration: Math.random() * 4 + 8,
+        type: i % 6 === 0 ? 'brain' : i % 8 === 0 ? 'diamond' : 'circle',
+        size: Math.random() * 8 + 6
+      })
+    }
+    return elements
+  })
   useEffect(() => {
     const container = floatingElementsRef.current
     if (!container) return
@@ -272,15 +285,15 @@ const IdeaCommunityHero = () => {
           }
         }
         
-        .hero-container {
+       .hero-container {
           position: relative;
           width: 100%;
           min-height: 100vh;
-          background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 20%, #1e1e1e 80%, #0a0a0a 100%);
+          padding: 80px 0; /* Added top and bottom padding */
+          background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 30%, #1a1a1a 70%, #0a0a0a 100%);
           overflow: hidden;
           display: flex;
           align-items: center;
-          padding: 120px 0;
         }
         
         .hero-container::before {
@@ -291,10 +304,10 @@ const IdeaCommunityHero = () => {
           right: 0;
           bottom: 0;
           background: 
-            radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.12) 0%, transparent 50%),
-            radial-gradient(circle at 70% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 20% 70%, rgba(255, 215, 0, 0.08) 0%, transparent 60%);
-          animation: backgroundFlow 18s ease-in-out infinite alternate;
+            radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.08) 0%, transparent 40%),
+            radial-gradient(circle at 75% 75%, rgba(255, 165, 0, 0.06) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.04) 0%, transparent 60%);
+          animation: backgroundFlow 12s ease-in-out infinite alternate;
         }
         
         .hero-container::after {
@@ -305,12 +318,12 @@ const IdeaCommunityHero = () => {
           right: 0;
           bottom: 0;
           background-image: 
-            linear-gradient(30deg, rgba(255, 215, 0, 0.04) 25%, transparent 25%),
-            linear-gradient(-30deg, rgba(255, 215, 0, 0.04) 25%, transparent 25%),
-            linear-gradient(30deg, transparent 75%, rgba(255, 215, 0, 0.04) 75%),
-            linear-gradient(-30deg, transparent 75%, rgba(255, 215, 0, 0.04) 75%);
-          background-size: 100px 100px;
-          animation: patternShift 30s linear infinite;
+            linear-gradient(45deg, rgba(255, 215, 0, 0.02) 25%, transparent 25%),
+            linear-gradient(-45deg, rgba(255, 215, 0, 0.02) 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, rgba(255, 215, 0, 0.02) 75%),
+            linear-gradient(-45deg, transparent 75%, rgba(255, 215, 0, 0.02) 75%);
+          background-size: 60px 60px;
+          animation: patternShift 20s linear infinite;
           pointer-events: none;
         }
         
@@ -322,27 +335,28 @@ const IdeaCommunityHero = () => {
           height: 100%;
           pointer-events: none;
           z-index: 1;
+          overflow: hidden;
         }
         
         .floating-element {
           position: absolute;
-          width: 10px;
-          height: 10px;
-          background: #FFD700;
           border-radius: 50%;
           opacity: 0.6;
-          animation: floatUp 12s linear infinite;
+          animation: floatUp linear infinite;
         }
-        
-        .floating-element:nth-child(odd) {
+
+        .floating-element.brain {
+          border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+          background: linear-gradient(45deg, #FFD700, #FFA500);
+        }
+
+        .floating-element.diamond {
+          clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
           background: #FFA500;
-          animation-duration: 14s;
         }
-        
-        .floating-element:nth-child(3n) {
-          width: 8px;
-          height: 8px;
-          animation-duration: 16s;
+
+        .floating-element.circle {
+          background: #FFA500;
         }
         
         .hero-content {
@@ -730,11 +744,26 @@ const IdeaCommunityHero = () => {
 
       <div className="hero-container">
         <div className="absolute inset-0 z-[1] pointer-events-none">
-          <div className="absolute top-0 left-0 right-0 h-[100px] bg-gradient-to-b from-[#050815] via-[rgba(5,8,21,0.8)] to-transparent"></div>
-          <div className="absolute bottom-0 left-0 right-0 h-[100px] bg-gradient-to-t from-[#050815] via-[rgba(5,8,21,0.8)] to-transparent"></div>
+          <div className="absolute top-0 left-0 right-0 h-[60px] bg-gradient-to-b from-[#050815] via-[rgba(5,8,21,0.8)] to-transparent"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-[60px] bg-gradient-to-t from-[#050815] via-[rgba(5,8,21,0.8)] to-transparent"></div>
         </div>
         
-        <div className="floating-elements" ref={floatingElementsRef}></div>
+        <div className="floating-elements">
+          {floatingElements.map((element) => (
+            <div
+              key={element.id}
+              className={`floating-element ${element.type}`}
+              style={{
+                left: `${element.left}%`,
+                width: `${element.size}px`,
+                height: `${element.size}px`,
+                animationDelay: `${element.delay}s`,
+                animationDuration: `${element.duration}s`
+              }}
+            />
+          ))}
+        </div>
+
 
         <div className="hero-content">
           <div className="hero-text">

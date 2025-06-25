@@ -1,5 +1,6 @@
 import Hero from "./Hero";
-import Investertable from "../sections/investertable";
+import Investertable from "./investertable";
+import Process from "./process";
 
 
 export default function Page() {
@@ -7,6 +8,7 @@ export default function Page() {
     <div>
       <Hero />
       <Investertable />
+      <Process/>
     </div>
   );
 }

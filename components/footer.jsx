@@ -24,7 +24,7 @@ const Footer = () => {
             {/* Disclaimer */}
             <div className="footer-disclaimer">
               Everything taught here is for educational purposes only. It is up to each student to implement and do the work. <br />
-              <strong className="gold-text">The Real World team</strong> doesn't guarantee any profits or financial success.
+              <strong className="gold-text">The Idea company Team</strong> doesn't guarantee any profits or financial success.
             </div>
 
             {/* Copyright */}

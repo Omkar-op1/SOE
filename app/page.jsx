@@ -1,7 +1,6 @@
 
 import Hero from "./sections/hero";
-import Process from "./sections/process";
-import Investertable from "./sections/investertable";
+import Process from "./investor/process";
 import Thinkers from "./sections/thinkers";
 import ThinkersClubChatbot from "@/components/chatbot";
 import Carousel from "@/components/carousel";
@@ -10,6 +9,7 @@ import Brand from "./sections/brand";
 import Test from "./sections/ht";
 import Main from "./sections/main";
 import Faq from "./sections/faq";
+// import DecisionSection from "./sections/DecisionSection";
 
 
 export default function Page() {
@@ -23,8 +23,9 @@ export default function Page() {
       <Thinkers/> */}
       
       <Test/>
-      <Process/>
+      {/* <Process/> */}
       <Brand/>
+     {/* <DecisionSection /> */}
       <Testimonials/>
       <Faq/>
       <ThinkersClubChatbot/>

@@ -606,6 +606,43 @@ const IdeaCompanyCTA = () => {
             max-width: 500px;
           }
         }
+          .school-title-section {
+          position: relative;
+          padding: 60px 0;
+          text-align: center;
+          background: transparent;
+        }
+        
+        .school-title {
+          font-size: 3rem;
+          font-weight: 700;
+          margin: 0 auto 20px;
+          background: linear-gradient(to right, #D4AF37, #F9D423, #D4AF37);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+          position: relative;
+          display: inline-block;
+          max-width: 90%;
+        }
+        
+        .school-title::after {
+          content: '';
+          position: absolute;
+          bottom: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100px;
+          height: 2px;
+          background: linear-gradient(to right, transparent, #D4AF37, transparent);
+        }
+        
+        @media (max-width: 768px) {
+          .school-title {
+            font-size: 2.2rem;
+          }
+        }
       `}</style>
 
       <section className="cta-section">
@@ -652,22 +689,21 @@ const IdeaCompanyCTA = () => {
               </div>
             </div>
             <div className="w3-col m6 animate-on-scroll video-container">
-              <video 
+              <video
                 ref={videoRef}
                 autoPlay
-                umuted
                 loop
                 playsInline
-                poster="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                controls
+                muted={false} // Explicitly set to false
                 className="video-element"
               >
-                <source src="Main.mp4" type="video/mp4" />
+                <source src="/Main.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
               <div className="video-overlay">
-                <div className="play-icon"></div>
               </div>
-            </div>
+            </div>    
           </div>
         </div>
       </section>
