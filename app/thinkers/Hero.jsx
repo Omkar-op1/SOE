@@ -3,23 +3,41 @@ import { useEffect, useRef, useState } from "react"
 
 const ThinkersClubHero = () => {
   const videoRef = useRef(null)
+  const titleRef = useRef(null)
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
-  const [displayText, setDisplayText] = useState("")
   const [isTypingComplete, setIsTypingComplete] = useState(false)
-  const [floatingElements] = useState(() => {
-    const elements = []
-    for (let i = 0; i < 25; i++) {
-      elements.push({
-        id: i,
-        left: Math.random() * 100,
-        delay: Math.random() * 8,
-        duration: Math.random() * 4 + 8,
-        type: i % 6 === 0 ? 'brain' : i % 8 === 0 ? 'diamond' : 'circle',
-        size: Math.random() * 8 + 6
-      })
+
+  // Typewriter effect implementation
+  useEffect(() => {
+    const titleElement = titleRef.current
+    if (!titleElement) return
+
+    const text = "Thinkers Club"
+    let currentIndex = 0
+    const typingSpeed = 150
+    const cursorBlinkSpeed = 700
+
+    const typeWriter = () => {
+      if (currentIndex < text.length) {
+        titleElement.textContent = text.substring(0, currentIndex + 1)
+        currentIndex++
+        setTimeout(typeWriter, typingSpeed)
+      } else {
+        setIsTypingComplete(true)
+        // Remove cursor after animation completes
+        setTimeout(() => {
+          titleElement.style.borderRight = 'none'
+        }, cursorBlinkSpeed)
+      }
     }
-    return elements
-  })
+
+    // Start typing after a short delay
+    const timer = setTimeout(() => {
+      typeWriter()
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     const texts = ["Thinkers Club"]
@@ -157,18 +175,17 @@ const ThinkersClubHero = () => {
         }
 
         @keyframes brainPulse {
-          0%, 100% { transform: scale(1) rotate(0deg); }
-          50% { transform: scale(1.1) rotate(2deg); }
+          0%, 100% {
+            transform: scale(1) rotate(0deg);
+          }
+          50% {
+            transform: scale(1.1) rotate(2deg);
+          }
         }
 
-        @keyframes blink {
-          0%, 50% { opacity: 1; }
-          51%, 100% { opacity: 0; }
-        }
-
-        @keyframes slideInScale {
-          0% { transform: scale(0.8) translateY(20px); opacity: 0; }
-          100% { transform: scale(1) translateY(0); opacity: 1; }
+        @keyframes typewriterBlink {
+          0%, 100% { border-color: transparent; }
+          50% { border-color: #FFD700; }
         }
         
          .hero-container {
@@ -279,18 +296,27 @@ const ThinkersClubHero = () => {
           line-height: 1.1;
         }
         
-        .typing-text {
+        .typewriter-title {
           display: inline-block;
           background: linear-gradient(45deg, #FFD700 0%, #FFA500 30%, #FFD700 60%, #FF8C00 100%);
           background-size: 300% 300%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: gradientWave 4s ease-in-out infinite;
+          animation: 
+            gradientWave 4s ease-in-out infinite,
+            typewriterBlink 0.7s step-end infinite;
           position: relative;
+          overflow: hidden;
+          border-right: 3px solid;
         }
 
-        .typing-text::after {
+        .typewriter-title.complete {
+          animation: gradientWave 4s ease-in-out infinite;
+          border-right: none;
+        }
+
+        .typewriter-title::after {
           content: '';
           position: absolute;
           top: 0;
@@ -676,9 +702,11 @@ const ThinkersClubHero = () => {
         <div className="hero-content">
           <div className="hero-text">
             <h1>
-                <span style={{ color: '#fff' }}>Learn about startups</span>
-              <span className="typing-text">{displayText}</span>
-              <span className={`cursor ${isTypingComplete ? 'hidden' : ''}`}></span>
+              <span className="font-size: 5rem; block mb-4 text-5xl text-white-400">Learn about startups inside</span>
+              <span 
+                ref={titleRef}
+                className={`typewriter-title ${isTypingComplete ? 'complete' : ''}`}
+              ></span>
             </h1>
             <h2 className="subtitle">Daily Business Ideas</h2>
             <p className="description">
